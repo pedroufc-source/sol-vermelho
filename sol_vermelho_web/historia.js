@@ -164,6 +164,163 @@ const DIALOGS = {
         { speaker: 'BUBBA', color: '#f80', text: 'Não tem mais volta.' },
         { speaker: 'RAIO', color: '#0f0', text: 'Eu sei.' },
         { speaker: 'BUBBA', color: '#f80', text: 'Bem-vindo ao Comando do Litoral.' }
+    ],
+
+    // ═══════════════════════════════════════════════════════════════
+    // CAPÍTULO 2 - CENTRO DE FORTALEZA
+    // Raio trabalha para Tio Fung contra os Cargueiros
+    // ═══════════════════════════════════════════════════════════════
+
+    // ─────────────────────────────────────────────────────────────
+    // MISSÃO 7 - OLHEIRO
+    // ─────────────────────────────────────────────────────────────
+    'mission_6_start': [
+        { speaker: 'BUBBA', color: '#f80', text: 'Raio, precisa sumir por um tempo.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'A DHPP?' },
+        { speaker: 'BUBBA', color: '#f80', text: 'E o RAIO. Tão rondando pesado aqui.' },
+        { speaker: 'BUBBA', color: '#f80', text: 'Vai pro centro. Procura o Tio Fung na Rua 24 de Maio.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Quem é Tio Fung?' },
+        { speaker: 'BUBBA', color: '#f80', text: 'Um velho chinês. Dono de restaurante. Diz que eu mandei.' }
+    ],
+    'mission_6_phase_1': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: '...' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Então você é o Raio.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Bubba me mandou.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: '"Paciência é a arma do homem sábio. A pressa é do homem morto."' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Tenho um problema. Os Cargueiros.' }
+    ],
+    'mission_6_phase_2': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Eles roubam minhas mercadorias na BR-116.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Preciso de alguém de fora. Alguém que eles não conheçam.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'O que você quer que eu faça?' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Primeiro, vigia. Fica de olho no galpão deles.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Conta quantos são. Vê quando chegam.' }
+    ],
+    'mission_6_complete': [
+        { speaker: 'RAIO', color: '#0f0', text: 'São uns 6, talvez 8. Revezam em turnos.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Bom. Muito bom.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Você é observador. Isso é raro.' }
+    ],
+
+    // ─────────────────────────────────────────────────────────────
+    // MISSÃO 8 - INTERCEPTAÇÃO
+    // ─────────────────────────────────────────────────────────────
+    'mission_7_start': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Eles pegaram outro caminhão meu.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'O que tinha dentro?' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Eletrônicos. Do Porto do Mucuripe.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Traz de volta. O caminhão e a carga.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'E os Cargueiros?' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Faça o necessário.' }
+    ],
+    'mission_7_phase_1': [
+        { speaker: 'RAIO', color: '#0f0', text: 'Achei o caminhão. Tem uns caras de guarda.' }
+    ],
+    'mission_7_complete': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'A carga está intacta?' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Sim.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Você está subindo, Raio.' }
+    ],
+
+    // ─────────────────────────────────────────────────────────────
+    // MISSÃO 9 - JOGO DO BICHO
+    // ─────────────────────────────────────────────────────────────
+    'mission_8_start': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Tenho outro negócio além do restaurante.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Bicho?' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Há 40 anos. Antes do seu pai nascer.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Meu bicheiro vai fazer a coleta na Praça do Ferreira.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Protege ele. Os Cargueiros querem tomar o ponto.' }
+    ],
+    'mission_8_phase_1': [
+        { speaker: 'BICHEIRO', color: '#ff0', text: 'Tu é o cara do Tio Fung?' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Sou. Vamos.' }
+    ],
+    'mission_8_phase_2': [
+        { speaker: 'CARGUEIRO', color: '#f44', text: 'OLHA O BICHEIRO DO CHINÊS!' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Fica atrás de mim.' }
+    ],
+    'mission_8_complete': [
+        { speaker: 'BICHEIRO', color: '#ff0', text: 'Caralho... tu é doido, Raio.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'A coleta está segura?' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Ninguém tocou no dinheiro.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Bom. Muito bom.' }
+    ],
+
+    // ─────────────────────────────────────────────────────────────
+    // MISSÃO 10 - O AGIOTA
+    // ─────────────────────────────────────────────────────────────
+    'mission_9_start': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Tem um comerciante no Mercado Central.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Deve três meses. R$15.000.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'E se ele não tiver?' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Ele tem. Mas prefere não pagar.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Convence ele.' }
+    ],
+    'mission_9_phase_1': [
+        { speaker: 'COMERCIANTE', color: '#ccc', text: 'Eu não tenho o dinheiro!' },
+        { speaker: 'RAIO', color: '#0f0', text: 'O Tio Fung disse que você tem.' },
+        { speaker: 'COMERCIANTE', color: '#ccc', text: 'Ele... ele vai ter que esperar!' }
+    ],
+    'mission_9_phase_2': [
+        { speaker: 'RAIO', color: '#0f0', text: 'O Tio Fung não gosta de esperar.' }
+    ],
+    'mission_9_complete': [
+        { speaker: 'COMERCIANTE', color: '#ccc', text: 'TOMA! TOMA O DINHEIRO!' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Ele pagou?' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Com juros.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Você entende como funciona.' }
+    ],
+
+    // ─────────────────────────────────────────────────────────────
+    // MISSÃO 11 - EMBOSCADA
+    // ─────────────────────────────────────────────────────────────
+    'mission_10_start': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Chegou a hora de acabar com os Cargueiros.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Como?' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Emboscada. Na BR-116.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Vou mandar um caminhão falso. Eles vão tentar roubar.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Você vai estar esperando.' }
+    ],
+    'mission_10_phase_1': [
+        { speaker: 'RAIO', color: '#0f0', text: 'Estou em posição.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Espera eles virem. Não atira antes da hora.' }
+    ],
+    'mission_10_phase_2': [
+        { speaker: 'CARGUEIRO', color: '#f44', text: 'PEGA O CAMINHÃO!' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Surpresa, filhos da puta.' }
+    ],
+    'mission_10_complete': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Quantos?' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Seis.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Agora falta só o chefe.' }
+    ],
+
+    // ─────────────────────────────────────────────────────────────
+    // MISSÃO 12 - ELIAS BURRO (Final do Capítulo 2)
+    // ─────────────────────────────────────────────────────────────
+    'mission_11_start': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Elias Burro. O chefe dos Cargueiros.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Onde ele está?' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'No galpão principal. Distrito Industrial.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Acaba com isso de uma vez.' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Sozinho?' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Você não está mais sozinho, Raio.' }
+    ],
+    'mission_11_phase_1': [
+        { speaker: 'RAIO', color: '#0f0', text: 'Chegando no galpão.' }
+    ],
+    'mission_11_phase_2': [
+        { speaker: 'ELIAS BURRO', color: '#f44', text: 'QUEM É ESSE FILHO DA PUTA?!' },
+        { speaker: 'RAIO', color: '#0f0', text: 'O cara que vai acabar com você.' }
+    ],
+    'mission_11_complete': [
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Acabou?' },
+        { speaker: 'RAIO', color: '#0f0', text: 'Acabou.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Os Cargueiros não existem mais.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Você provou seu valor, Raio.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Mas a DRACO está de olho. A PF também.' },
+        { speaker: 'TIO FUNG', color: '#8f8', text: 'Preciso te apresentar a alguém...' }
     ]
 };
 

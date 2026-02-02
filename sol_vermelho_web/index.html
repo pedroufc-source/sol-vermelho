@@ -431,15 +431,108 @@ const MISSIONS = [
             { type: 'kill', desc: 'Resolva o problema.', target: 1, x: 600, y: 600 },
             { type: 'goto', desc: 'Jogue o corpo no rio Ceara', x: 200, y: 250, radius: 80 }
         ],
-        reward: 5000
+        reward: 5000,
+        chapter: 1
+    },
+
+    // ═══════════════════════════════════════════════════════════════
+    // CAPÍTULO 2 - CENTRO DE FORTALEZA
+    // Raio trabalha para Tio Fung contra os Cargueiros
+    // ═══════════════════════════════════════════════════════════════
+
+    // Missão 7: Olheiro - Primeiro trabalho pro Tio Fung
+    {
+        type: 'recon',
+        title: 'OLHEIRO',
+        desc: 'Bubba mandou sumir. Procure Tio Fung na Rua 24 de Maio.\nEle precisa de alguem de fora.',
+        phases: [
+            { type: 'goto', desc: 'Va ate o restaurante do Tio Fung', x: 1400, y: 1900, radius: 50 },
+            { type: 'goto', desc: 'Conheca o Tio Fung', x: 1400, y: 1900, radius: 30 },
+            { type: 'goto', desc: 'Vigiar o galpao dos Cargueiros na BR-116', x: 600, y: 2800, radius: 60 },
+            { type: 'wait', desc: 'Observe e conte quantos sao...', time: 120 }
+        ],
+        reward: 1200,
+        chapter: 2
+    },
+    // Missão 8: Interceptação - Recuperar caminhão
+    {
+        type: 'hijack',
+        title: 'INTERCEPTACAO',
+        desc: 'Os Cargueiros roubaram um caminhao do Tio Fung.\nRecupere a carga.',
+        phases: [
+            { type: 'goto', desc: 'Ache o caminhao na BR-116', x: 500, y: 3200, radius: 60 },
+            { type: 'kill', desc: 'Elimine os guardas', target: 3, x: 500, y: 3200 },
+            { type: 'goto', desc: 'Leve o caminhao pro deposito', x: 1200, y: 2000, radius: 80 }
+        ],
+        reward: 2000,
+        chapter: 2
+    },
+    // Missão 9: Jogo do Bicho - Proteger bicheiro
+    {
+        type: 'escort',
+        title: 'JOGO DO BICHO',
+        desc: 'Proteja o bicheiro do Tio Fung durante a coleta.\nOs Cargueiros querem o ponto.',
+        phases: [
+            { type: 'goto', desc: 'Encontre o bicheiro na Praca do Ferreira', x: 1500, y: 1600, radius: 50 },
+            { type: 'kill', desc: 'Defenda o bicheiro dos Cargueiros!', target: 4, x: 1500, y: 1600 },
+            { type: 'goto', desc: 'Escolte ele de volta pro restaurante', x: 1400, y: 1900, radius: 60 }
+        ],
+        reward: 2500,
+        chapter: 2
+    },
+    // Missão 10: O Agiota - Cobrar dívida
+    {
+        type: 'intimidate',
+        title: 'O AGIOTA',
+        desc: 'Um comerciante no Mercado Central deve R$15.000.\nConvence ele a pagar.',
+        phases: [
+            { type: 'goto', desc: 'Va ate o Mercado Central', x: 1600, y: 1700, radius: 50 },
+            { type: 'kill', desc: 'Pressione o comerciante (mate os seguranças)', target: 2, x: 1600, y: 1700 },
+            { type: 'goto', desc: 'Volte pro Tio Fung com o dinheiro', x: 1400, y: 1900, radius: 60 }
+        ],
+        reward: 3000,
+        chapter: 2
+    },
+    // Missão 11: Emboscada - Preparar armadilha
+    {
+        type: 'ambush',
+        title: 'EMBOSCADA',
+        desc: 'Hora de acabar com os Cargueiros.\nPrepare uma emboscada na BR-116.',
+        phases: [
+            { type: 'goto', desc: 'Va ate o ponto da emboscada', x: 400, y: 3000, radius: 60 },
+            { type: 'wait', desc: 'Espere o caminhao falso atrair os Cargueiros...', time: 90 },
+            { type: 'kill', desc: 'EMBOSCADA! Elimine todos!', target: 6, x: 400, y: 3000 },
+            { type: 'flee', desc: 'A PM ta vindo! Saia da BR!', x: 1000, y: 2400, radius: 80, wanted: 3 }
+        ],
+        reward: 4000,
+        chapter: 2
+    },
+    // Missão 12: Elias Burro - Final do Capítulo 2
+    {
+        type: 'assassination',
+        title: 'ELIAS BURRO',
+        desc: 'O chefe dos Cargueiros ta no galpao principal.\nAcabe com isso de uma vez.',
+        phases: [
+            { type: 'goto', desc: 'Va ate o Distrito Industrial', x: 300, y: 3400, radius: 70 },
+            { type: 'kill', desc: 'Elimine os guardas do galpao', target: 4, x: 300, y: 3400 },
+            { type: 'kill', desc: 'MATE ELIAS BURRO!', target: 1, x: 300, y: 3400 },
+            { type: 'flee', desc: 'A DRACO ta vindo! FOGE!', x: 1200, y: 2200, radius: 100, wanted: 5 }
+        ],
+        reward: 8000,
+        chapter: 2
     }
 ];
 
 function startMission(idx) {
     if (idx >= MISSIONS.length) {
-        showMsg('CAPITULO 1 COMPLETO!\nBubba Serafim agora confia em voce.\nProximo: CENTRO DE FORTALEZA', true);
+        showMsg('PARABENS!\nVoce completou todas as missoes disponiveis.\nContinue explorando Fortaleza...', true);
         G.mission = null;
         return;
+    }
+
+    // Mensagens de transição de capítulo
+    if (idx === 6) {
+        showMsg('CAPITULO 2: CENTRO DE FORTALEZA\n\nA DHPP abriu inquerito. O RAIO esta rondando.\nBubba manda voce sumir e procurar Tio Fung.', true);
     }
     const m = MISSIONS[idx];
     G.mission = { ...m, phase: 0, progress: 0, timer: 0, briefing: true };
