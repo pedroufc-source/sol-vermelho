@@ -6,7 +6,7 @@ Obrigado pelo interesse em contribuir! Este documento explica como você pode aj
 
 ### Reportando Bugs
 
-1. Verifique se o bug já não foi reportado nas [Issues](https://github.com/pedrorochadeoliveira/sol-vermelho/issues)
+1. Verifique se o bug já não foi reportado nas [Issues](https://github.com/pedroufc-source/sol-vermelho/issues)
 2. Se não encontrar, crie uma nova issue com:
    - Título descritivo
    - Passos para reproduzir

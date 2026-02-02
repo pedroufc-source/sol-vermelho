@@ -74,5 +74,5 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 
 ---
 
-[Unreleased]: https://github.com/pedrorochadeoliveira/sol-vermelho/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/pedrorochadeoliveira/sol-vermelho/releases/tag/v0.1.0
+[Unreleased]: https://github.com/pedroufc-source/sol-vermelho/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/pedroufc-source/sol-vermelho/releases/tag/v0.1.0

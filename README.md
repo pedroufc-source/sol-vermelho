@@ -42,7 +42,7 @@
 
 ### Versão Web (Mais Fácil)
 
-1. Acesse: **[Sol Vermelho Web](https://pedrorochadeoliveira.github.io/sol-vermelho/)** *(em breve)*
+1. Acesse: **[Sol Vermelho Web](https://pedroufc-source.github.io/sol-vermelho/)**
 2. Jogue direto no navegador!
 
 ### Versão Desktop (Godot)
@@ -54,7 +54,7 @@
 
 ```bash
 # Clone o repositório
-git clone https://github.com/pedrorochadeoliveira/sol-vermelho.git
+git clone https://github.com/pedroufc-source/sol-vermelho.git
 
 # Abra o projeto no Godot
 # 1. Abra o Godot Engine
@@ -160,7 +160,7 @@ Este projeto está licenciado sob a **MIT License** - veja [LICENSE](LICENSE) pa
 
 ## Contato
 
-- **GitHub:** [@pedrorochadeoliveira](https://github.com/pedrorochadeoliveira)
+- **GitHub:** [@pedroufc-source](https://github.com/pedroufc-source)
 
 ---
 
