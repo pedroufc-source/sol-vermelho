@@ -90,7 +90,8 @@
         <canvas id="minimap" width="120" height="120"></canvas>
         <div id="speed">0 km/h</div>
         <div id="mission-hud"></div>
-        <div id="controls">WASD Mover | SHIFT Correr | E Veículo | Q Arma | SPACE Freio | Click Atirar</div>
+        <div id="radio-display" style="display:none; position:absolute; bottom:40px; right:8px; background:rgba(0,0,0,0.8); padding:8px 12px; border:1px solid #333; max-width:180px;"></div>
+        <div id="controls">WASD Mover | SHIFT Correr | E Veículo | Q Arma | R Rádio | F Interagir | SPACE Freio</div>
         <div id="loading"><div>CARREGANDO SPRITES GTA 1...</div><div id="loading-bar"><div id="loading-fill"></div></div></div>
         <div id="start-screen"><h1>☠ SOL VERMELHO ☠</h1><h2>Fortaleza - Fevereiro de 2003</h2><button class="btn" onclick="showIntro()">JOGAR</button></div>
         <div id="intro-screen" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:#0a0a12; z-index:100; padding:30px; overflow-y:auto;">
@@ -102,13 +103,14 @@
         <div id="death-screen"><h1>WASTED</h1><p id="death-stats"></p><button class="btn" onclick="respawn()">CONTINUAR</button></div>
     </div>
 <script src="mapbox.js"></script>
+<script src="sanidade.js"></script>
 <script>
 const canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
 const minimapCanvas = document.getElementById('minimap'), minimapCtx = minimapCanvas.getContext('2d');
 ctx.imageSmoothingEnabled = false; minimapCtx.imageSmoothingEnabled = false;
 const WORLD_W = 4096, WORLD_H = 4096, TILE_SIZE = 64;
 const assets = { sprites: null, tiles: null, spriteData: null, loaded: false };
-const G = { running: false, paused: false, cam: { x: 0, y: 0 }, keys: {}, mouse: { x: 0, y: 0, down: false, wx: 0, wy: 0 }, player: null, vehicles: [], peds: [], cops: [], bullets: [], particles: [], pickups: [], targets: [], wanted: 0, wantedTimer: 0, money: 0, score: 0, kills: 0, msgTimer: 0, msgPersist: false, time: 0, mission: null, missionIdx: 0,
+const G = { running: false, paused: false, cam: { x: 0, y: 0 }, keys: {}, mouse: { x: 0, y: 0, down: false, wx: 0, wy: 0 }, player: null, vehicles: [], peds: [], cops: [], policeVehicles: [], bullets: [], particles: [], pickups: [], targets: [], wanted: 0, wantedTimer: 0, money: 0, score: 0, kills: 0, msgTimer: 0, msgPersist: false, time: 0, mission: null, missionIdx: 0,
     // Sistema de sanidade (oculto do jogador)
     sanidade: 100,           // 0-100, começa cheio
     capsVisitas: 0,          // quantas vezes tentou ir ao CAPS
@@ -117,6 +119,9 @@ const G = { running: false, paused: false, cam: { x: 0, y: 0 }, keys: {}, mouse:
     capsRecusado: 0,         // quantas vezes foi mandado embora
     ultimoKill: 0            // timestamp do último kill (afeta sanidade)
 };
+// Radio stub para evitar erros
+const Radio = { station: 0, timer: 0, crimeReported: false, changeStation() {}, update() {}, show() {}, hide() {}, updateDisplay() {} };
+
 const WEAPONS = { fists: { name: 'PUNHOS', dmg: 15, range: 40, rate: 20, ammo: Infinity }, pistol: { name: 'PISTOLA', dmg: 25, range: 500, rate: 12, ammo: 12, max: 99 }, uzi: { name: 'UZI', dmg: 12, range: 350, rate: 3, ammo: 30, max: 150, auto: true }, shotgun: { name: 'SHOTGUN', dmg: 10, range: 200, rate: 25, ammo: 8, max: 32, pellets: 6 } };
 
 // ===== AVISO DE IDADE =====
@@ -413,6 +418,8 @@ function completeMission() {
 }
 
 function onKill(isTarget = false) {
+    // Afeta sanidade do Raio
+    if (typeof onKillSanidade === 'function') onKillSanidade();
     if (!G.mission?.phases) return;
     const p = G.mission.phases[G.mission.phase];
     if (p?.type === 'kill' && isTarget) {
@@ -1125,6 +1132,27 @@ function render() {
     } else {
         missionHud.style.display = 'none';
     }
+
+    // Renderizar sistemas de expansão
+    if (typeof Gangs !== 'undefined') Gangs.render(ctx);
+    if (typeof Shops !== 'undefined') Shops.render(ctx);
+    if (typeof SafeHouses !== 'undefined') SafeHouses.render(ctx);
+    if (typeof DayNight !== 'undefined') DayNight.render(ctx, canvas.width, canvas.height);
+    if (typeof Weather !== 'undefined') Weather.render(ctx, canvas.width, canvas.height);
+
+    // HUD do horário
+    if (typeof DayNight !== 'undefined') {
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        ctx.fillRect(canvas.width - 60, 8, 52, 18);
+        ctx.fillStyle = DayNight.getDarkness() > 0.3 ? '#ff0' : '#fff';
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'right';
+        ctx.fillText(DayNight.getTimeString(), canvas.width - 12, 21);
+    }
+
+    // Sistema de sanidade - efeitos visuais e CAPS
+    if (typeof drawCAPS === 'function') drawCAPS();
+    if (typeof aplicarEfeitosSanidade === 'function') aplicarEfeitosSanidade();
 }
 
 function update() {
@@ -1136,6 +1164,12 @@ function update() {
     for (const v of G.vehicles) v.update(); for (const pv of G.policeVehicles) pv.update(); for (const p of G.peds) p.update(); for (const t of G.targets) t.update(); for (const c of G.cops) c.update(); for (const p of G.pickups) p.update();
     for (let i = G.bullets.length - 1; i >= 0; i--) { G.bullets[i].update(); if (G.bullets[i].life <= 0) G.bullets.splice(i, 1); }
     updateParticles(); updateWanted(); processPoliceQueue(); checkMission(); Radio.update();
+    // Sistema de sanidade/CAPS
+    if (typeof updateSanidade === 'function') { updateSanidade(); checkCAPS(); }
+    // Sistemas de expansão
+    if (typeof DayNight !== 'undefined') DayNight.update();
+    if (typeof Weather !== 'undefined') Weather.update();
+    if (typeof Gangs !== 'undefined') Gangs.update();
     if (G.msgTimer > 0) { G.msgTimer--; if (G.msgTimer <= 0) document.getElementById('message').style.opacity = 0; }
 }
 
