@@ -7,8 +7,19 @@ e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR
 
 ## [Unreleased]
 
+### Adicionado
+- **Sistema de Save/Load**
+  - Salvar progresso com F5 ou menu de pausa
+  - Autosave ao completar missões
+  - Carregar jogo salvo do menu principal
+  - Dados salvos: dinheiro, score, missão, posição, armas
+- **Menu de Pausa** (tecla ESC)
+  - Continuar, Salvar, Voltar ao Menu
+- **Aviso de Idade (18+)**
+  - Tela de verificação de idade obrigatória
+  - Disclaimer legal sobre conteúdo fictício
+
 ### Em Desenvolvimento
-- Sistema de save/load
 - Cutscenes narrativas
 - Trilha sonora original
 - Capítulos 2, 3 e 4
