@@ -45,6 +45,15 @@
         #age-warning .btn-group { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
         #age-warning .btn-confirm { background: #c00; border-color: #f00; }
         #age-warning .btn-exit { background: #333; border-color: #666; }
+        /* Menu de pausa */
+        #pause-menu { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 150; }
+        #pause-menu h1 { color: #f33; font-size: 36px; margin-bottom: 30px; }
+        #pause-menu .menu-buttons { display: flex; flex-direction: column; gap: 10px; }
+        #pause-menu .btn { min-width: 200px; }
+        .btn-secondary { background: #222; border-color: #444; }
+        .btn-secondary:hover { background: #444; }
+        /* Indicador de save */
+        #save-indicator { position: absolute; top: 80px; right: 12px; color: #0f0; font-size: 12px; opacity: 0; transition: opacity 0.3s; }
     </style>
 </head>
 <body>
@@ -93,7 +102,7 @@
         <div id="radio-display" style="display:none; position:absolute; bottom:40px; right:8px; background:rgba(0,0,0,0.8); padding:8px 12px; border:1px solid #333; max-width:180px;"></div>
         <div id="controls">WASD Mover | SHIFT Correr | E Veículo | Q Arma | R Rádio | F Interagir | SPACE Freio</div>
         <div id="loading"><div>CARREGANDO SPRITES GTA 1...</div><div id="loading-bar"><div id="loading-fill"></div></div></div>
-        <div id="start-screen"><h1>☠ SOL VERMELHO ☠</h1><h2>Fortaleza - Fevereiro de 2003</h2><button class="btn" onclick="showIntro()">JOGAR</button></div>
+        <div id="start-screen"><h1>☠ SOL VERMELHO ☠</h1><h2>Fortaleza - Fevereiro de 2003</h2><div class="menu-buttons" style="display:flex;flex-direction:column;gap:10px;"><button class="btn" onclick="showIntro()">NOVO JOGO</button><button class="btn btn-secondary" id="continue-btn" onclick="loadAndStart()" style="display:none;">CONTINUAR</button></div></div>
         <div id="intro-screen" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:#0a0a12; z-index:100; padding:30px; overflow-y:auto;">
             <div style="max-width:500px; margin:0 auto; color:#999; font-family:Georgia,serif; line-height:1.8; font-size:13px;">
                 <div id="intro-text"></div>
@@ -101,6 +110,16 @@
             </div>
         </div>
         <div id="death-screen"><h1>WASTED</h1><p id="death-stats"></p><button class="btn" onclick="respawn()">CONTINUAR</button></div>
+        <!-- Menu de pausa -->
+        <div id="pause-menu">
+            <h1>PAUSADO</h1>
+            <div class="menu-buttons">
+                <button class="btn" onclick="resumeGame()">CONTINUAR</button>
+                <button class="btn btn-secondary" onclick="saveGame()">SALVAR JOGO</button>
+                <button class="btn btn-secondary" onclick="quitToMenu()">MENU PRINCIPAL</button>
+            </div>
+        </div>
+        <div id="save-indicator">JOGO SALVO</div>
     </div>
 <script src="mapbox.js"></script>
 <script src="sanidade.js"></script>
@@ -134,6 +153,133 @@ function confirmAge() {
         document.getElementById('start-screen').style.display = 'flex';
         init();
     });
+}
+
+// ===== SISTEMA DE SAVE/LOAD =====
+const SAVE_KEY = 'sol_vermelho_save';
+
+function saveGame() {
+    if (!G.player) return;
+
+    const saveData = {
+        version: 1,
+        timestamp: Date.now(),
+        money: G.money,
+        score: G.score,
+        kills: G.kills,
+        missionIdx: G.missionIdx,
+        wanted: G.wanted,
+        player: {
+            x: G.player.x,
+            y: G.player.y,
+            health: G.player.health,
+            armor: G.player.armor,
+            weapons: G.player.weapons,
+            ammo: G.player.ammo
+        }
+    };
+
+    try {
+        localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
+        showSaveIndicator();
+        console.log('Jogo salvo!', saveData);
+    } catch (e) {
+        console.error('Erro ao salvar:', e);
+    }
+}
+
+function loadGame() {
+    try {
+        const data = localStorage.getItem(SAVE_KEY);
+        if (!data) return null;
+        return JSON.parse(data);
+    } catch (e) {
+        console.error('Erro ao carregar save:', e);
+        return null;
+    }
+}
+
+function hasSaveGame() {
+    return localStorage.getItem(SAVE_KEY) !== null;
+}
+
+function deleteSave() {
+    localStorage.removeItem(SAVE_KEY);
+}
+
+function applySaveData(saveData) {
+    if (!saveData || !G.player) return;
+
+    G.money = saveData.money || 0;
+    G.score = saveData.score || 0;
+    G.kills = saveData.kills || 0;
+    G.missionIdx = saveData.missionIdx || 0;
+    G.wanted = saveData.wanted || 0;
+
+    if (saveData.player) {
+        G.player.x = saveData.player.x || WORLD_W / 2;
+        G.player.y = saveData.player.y || WORLD_H / 2;
+        G.player.health = saveData.player.health || 100;
+        G.player.armor = saveData.player.armor || 0;
+        G.player.weapons = saveData.player.weapons || ['fists'];
+        G.player.ammo = saveData.player.ammo || {};
+    }
+
+    updateUI();
+}
+
+function loadAndStart() {
+    const saveData = loadGame();
+    if (saveData) {
+        document.getElementById('start-screen').style.display = 'none';
+        G.running = true;
+        Audio.init();
+
+        // Aplica os dados salvos
+        applySaveData(saveData);
+
+        // Continua da missão salva (sem mostrar intro/briefing)
+        if (G.missionIdx < MISSIONS.length) {
+            G.mission = { ...MISSIONS[G.missionIdx], phase: 0, progress: 0, started: true };
+            document.getElementById('mission-hud').style.display = 'block';
+            document.getElementById('mission-hud').textContent = G.mission.title;
+        }
+
+        showMsg('Jogo carregado!');
+    }
+}
+
+function showSaveIndicator() {
+    const indicator = document.getElementById('save-indicator');
+    indicator.style.opacity = '1';
+    setTimeout(() => { indicator.style.opacity = '0'; }, 2000);
+}
+
+function checkSaveOnLoad() {
+    if (hasSaveGame()) {
+        document.getElementById('continue-btn').style.display = 'block';
+    }
+}
+
+// ===== MENU DE PAUSA =====
+function togglePause() {
+    if (!G.running) return;
+
+    G.paused = !G.paused;
+    document.getElementById('pause-menu').style.display = G.paused ? 'flex' : 'none';
+}
+
+function resumeGame() {
+    G.paused = false;
+    document.getElementById('pause-menu').style.display = 'none';
+}
+
+function quitToMenu() {
+    G.running = false;
+    G.paused = false;
+    document.getElementById('pause-menu').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'flex';
+    checkSaveOnLoad();
 }
 
 // ===== SISTEMA DE ZONAS E TEMPO DE RESPOSTA POLICIAL =====
@@ -400,7 +546,10 @@ function completeMission() {
     updateUI();
 
     const nextIdx = G.missionIdx + 1;
-    const dialogKey = 'mission_' + G.missionIdx + '_complete';
+    G.missionIdx = nextIdx; // Atualiza índice antes de salvar
+    saveGame(); // Autosave ao completar missão
+
+    const dialogKey = 'mission_' + (nextIdx - 1) + '_complete';
     const hasDialog = typeof playDialog === 'function' && DIALOGS && DIALOGS[dialogKey];
 
     G.mission = null;
@@ -466,7 +615,7 @@ async function loadAssets() {
     } catch(e) {
         console.log('Assets not found, using fallback graphics:', e);
     }
-    setTimeout(() => { document.getElementById('loading').style.display = 'none'; document.getElementById('start-screen').style.display = 'flex'; }, 300);
+    setTimeout(() => { document.getElementById('loading').style.display = 'none'; document.getElementById('start-screen').style.display = 'flex'; checkSaveOnLoad(); }, 300);
 }
 function loadImage(src) { return new Promise((resolve, reject) => { const img = new Image(); img.onload = () => resolve(img); img.onerror = reject; img.src = src; }); }
 
@@ -1177,7 +1326,7 @@ function gameLoop() { update(); render(); requestAnimationFrame(gameLoop); }
 
 function init() {
     G.player = new Player(WORLD_W / 2, WORLD_H / 2); G.player.giveWeapon('pistol', 24); spawnWorld();
-    window.addEventListener('keydown', e => { G.keys[e.code] = true; if (e.code === 'KeyE') handleVehicle(); if (e.code === 'KeyQ') { G.player.curWeapon = (G.player.curWeapon + 1) % G.player.weapons.length; updateUI(); } if (e.code === 'Escape') G.paused = !G.paused; });
+    window.addEventListener('keydown', e => { G.keys[e.code] = true; if (e.code === 'KeyE') handleVehicle(); if (e.code === 'KeyQ') { G.player.curWeapon = (G.player.curWeapon + 1) % G.player.weapons.length; updateUI(); } if (e.code === 'Escape') togglePause(); if (e.code === 'F5') { e.preventDefault(); saveGame(); } });
     window.addEventListener('keyup', e => { G.keys[e.code] = false; });
     canvas.addEventListener('mousedown', () => { G.mouse.down = true; if (G.msgPersist) { dismissMsg(); return; } G.player.attack(); });
     canvas.addEventListener('mouseup', () => { G.mouse.down = false; });
