@@ -1,0 +1,91 @@
+[gd_scene load_steps=2 format=3 uid="uid://hud001"]
+
+[ext_resource type="Script" path="res://scripts/ui/hud_controller.gd" id="1_hud"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 25)
+layout_mode = 2
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TerritoryLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Territorio: Zona Neutra"
+
+[node name="WeaponLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Arma: Punhos"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="ReputationTitle" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Reputacao:"
+
+[node name="ReputationContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CSLabel" type="Label" parent="MarginContainer/VBoxContainer/ReputationContainer"]
+layout_mode = 2
+text = "Comando Solar"
+theme_override_colors/font_color = Color(0.2, 0.4, 0.9, 1)
+
+[node name="CSReputation" type="ProgressBar" parent="MarginContainer/VBoxContainer/ReputationContainer"]
+custom_minimum_size = Vector2(150, 15)
+layout_mode = 2
+max_value = 100.0
+value = 50.0
+show_percentage = false
+
+[node name="TPLabel" type="Label" parent="MarginContainer/VBoxContainer/ReputationContainer"]
+layout_mode = 2
+text = "Tropa da Periferia"
+theme_override_colors/font_color = Color(0.9, 0.2, 0.2, 1)
+
+[node name="TPReputation" type="ProgressBar" parent="MarginContainer/VBoxContainer/ReputationContainer"]
+custom_minimum_size = Vector2(150, 15)
+layout_mode = 2
+max_value = 100.0
+value = 50.0
+show_percentage = false
+
+[node name="ControlsHelp" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "WASD - Mover | Shift - Correr | E - Entrar/Sair Veiculo | Mouse - Atacar"
+horizontal_alignment = 2
+vertical_alignment = 2

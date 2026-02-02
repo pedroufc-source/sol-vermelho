@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://main001"]
+
+[ext_resource type="PackedScene" uid="uid://citymap001" path="res://scenes/world/city_map.tscn" id="1_citymap"]
+[ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://ce8k1co1tk5aa" path="res://scenes/npcs/gang_member.tscn" id="3_gangmember"]
+[ext_resource type="PackedScene" uid="uid://car001" path="res://scenes/vehicles/car.tscn" id="4_car"]
+[ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" uid="uid://controls001" path="res://scenes/ui/controls_screen.tscn" id="6_controls"]
+
+[node name="Main" type="Node2D" unique_id=989938724]
+
+[node name="CityMap" parent="." unique_id=315879218 instance=ExtResource("1_citymap")]
+position = Vector2(20, 18)
+
+[node name="Player" parent="." unique_id=1581043586 instance=ExtResource("2_player")]
+position = Vector2(1000, 1000)
+
+[node name="Vehicles" type="Node2D" parent="." unique_id=1689209509]
+
+[node name="Car1" parent="Vehicles" unique_id=1628851878 instance=ExtResource("4_car")]
+position = Vector2(800, 900)
+
+[node name="Car2" parent="Vehicles" unique_id=1327984539 instance=ExtResource("4_car")]
+modulate = Color(0.8, 0.2, 0.2, 1)
+position = Vector2(1400, 500)
+
+[node name="NPCs" type="Node2D" parent="." unique_id=1692857716]
+
+[node name="CS_Member1" parent="NPCs" unique_id=377242292 instance=ExtResource("3_gangmember")]
+position = Vector2(1500, 400)
+
+[node name="CS_Member2" parent="NPCs" unique_id=156416461 instance=ExtResource("3_gangmember")]
+position = Vector2(1600, 600)
+
+[node name="CS_Member3" parent="NPCs" unique_id=1860381170 instance=ExtResource("3_gangmember")]
+position = Vector2(1400, 500)
+
+[node name="TP_Member1" parent="NPCs" unique_id=269061484 instance=ExtResource("3_gangmember")]
+position = Vector2(400, 1400)
+faction = "tropa_periferia"
+
+[node name="TP_Member2" parent="NPCs" unique_id=1238868466 instance=ExtResource("3_gangmember")]
+position = Vector2(500, 1600)
+faction = "tropa_periferia"
+
+[node name="TP_Member3" parent="NPCs" unique_id=615611284 instance=ExtResource("3_gangmember")]
+position = Vector2(600, 1500)
+faction = "tropa_periferia"
+
+[node name="HUD" parent="." unique_id=1186005766 instance=ExtResource("5_hud")]
+
+[node name="ControlsScreen" parent="." instance=ExtResource("6_controls")]

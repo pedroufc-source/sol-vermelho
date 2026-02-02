@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://main001"]
+
+[ext_resource type="PackedScene" uid="uid://citymap001" path="res://scenes/world/city_map.tscn" id="1_citymap"]
+[ext_resource type="PackedScene" uid="uid://player001" path="res://scenes/player/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" uid="uid://gangmember001" path="res://scenes/npcs/gang_member.tscn" id="3_gangmember"]
+[ext_resource type="PackedScene" uid="uid://car001" path="res://scenes/vehicles/car.tscn" id="4_car"]
+[ext_resource type="PackedScene" uid="uid://hud001" path="res://scenes/ui/hud.tscn" id="5_hud"]
+
+[node name="Main" type="Node2D"]
+
+[node name="CityMap" parent="." instance=ExtResource("1_citymap")]
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(1000, 1000)
+
+[node name="Vehicles" type="Node2D" parent="."]
+
+[node name="Car1" parent="Vehicles" instance=ExtResource("4_car")]
+position = Vector2(800, 900)
+
+[node name="Car2" parent="Vehicles" instance=ExtResource("4_car")]
+position = Vector2(1400, 500)
+modulate = Color(0.8, 0.2, 0.2, 1)
+
+[node name="NPCs" type="Node2D" parent="."]
+
+[node name="CS_Member1" parent="NPCs" instance=ExtResource("3_gangmember")]
+position = Vector2(1500, 400)
+
+[node name="CS_Member2" parent="NPCs" instance=ExtResource("3_gangmember")]
+position = Vector2(1600, 600)
+
+[node name="CS_Member3" parent="NPCs" instance=ExtResource("3_gangmember")]
+position = Vector2(1400, 500)
+
+[node name="TP_Member1" parent="NPCs" instance=ExtResource("3_gangmember")]
+position = Vector2(400, 1400)
+faction = "tropa_periferia"
+
+[node name="TP_Member2" parent="NPCs" instance=ExtResource("3_gangmember")]
+position = Vector2(500, 1600)
+faction = "tropa_periferia"
+
+[node name="TP_Member3" parent="NPCs" instance=ExtResource("3_gangmember")]
+position = Vector2(600, 1500)
+faction = "tropa_periferia"
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]
