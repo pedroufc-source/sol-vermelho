@@ -13,6 +13,10 @@ class Game {
         this.map = null;
         this.player = null;
 
+        // Veículos e NPCs
+        this.vehicles = [];
+        this.npcManager = null;
+
         this.running = false;
         this.paused = false;
 
@@ -53,6 +57,13 @@ class Game {
         // Player (começa na Barra do Ceará)
         this.player = new Player(this.scene, this.physics, 500, 500);
 
+        // Veículos iniciais
+        this.spawnInitialVehicles();
+
+        // NPCs
+        this.npcManager = new NPCManager(this.scene, this.physics);
+        this.npcManager.spawnInitial(30);
+
         // Luz ambiente
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
         this.scene.add(ambientLight);
@@ -92,7 +103,16 @@ class Game {
         // Atualiza player
         this.player.update(delta, this.camera);
 
-        // Câmera segue player
+        // Atualiza veículos
+        for (const vehicle of this.vehicles) {
+            vehicle.update(delta);
+        }
+
+        // Atualiza NPCs
+        this.npcManager.update(delta, this.player);
+        this.npcManager.spawnNearPlayer(this.player);
+
+        // Câmera segue player (ou veículo)
         this.updateCamera();
 
         // Atualiza HUD
@@ -106,16 +126,23 @@ class Game {
     }
 
     updateCamera() {
-        // Câmera top-down com ângulo
-        const targetX = this.player.position.x;
-        const targetZ = this.player.position.y;
+        // Pega posição do alvo (player ou veículo)
+        let targetX, targetZ;
 
-        // Posição da câmera: acima e atrás do player
+        if (this.player.inVehicle) {
+            targetX = this.player.inVehicle.position.x;
+            targetZ = this.player.inVehicle.position.y;
+        } else {
+            targetX = this.player.position.x;
+            targetZ = this.player.position.y;
+        }
+
+        // Posição da câmera: acima e atrás do alvo
         this.camera.position.x = targetX;
         this.camera.position.y = CONFIG.CAMERA_HEIGHT;
-        this.camera.position.z = targetZ + 200; // Um pouco atrás
+        this.camera.position.z = targetZ + 200;
 
-        // Olha para o player
+        // Olha para o alvo
         this.camera.lookAt(targetX, 0, targetZ);
     }
 
@@ -167,12 +194,81 @@ class Game {
 
         // E = Entrar/sair veículo
         if (e.code === 'KeyE') {
-            // TODO: Sistema de veículos
+            this.handleVehicleInteraction();
         }
 
         // ESC = Pause
         if (e.code === 'Escape') {
             this.togglePause();
+        }
+    }
+
+    /**
+     * Entrar/sair de veículos
+     */
+    handleVehicleInteraction() {
+        if (this.player.inVehicle) {
+            // Sair do veículo
+            this.player.inVehicle.exit();
+        } else {
+            // Procura veículo próximo
+            const nearbyVehicle = this.findNearbyVehicle();
+            if (nearbyVehicle) {
+                nearbyVehicle.enter(this.player);
+            }
+        }
+    }
+
+    /**
+     * Encontra veículo próximo ao player
+     */
+    findNearbyVehicle() {
+        const maxDist = 60;
+        let closest = null;
+        let closestDist = maxDist;
+
+        for (const vehicle of this.vehicles) {
+            const dist = vehicle.distanceTo(this.player.position.x, this.player.position.y);
+            if (dist < closestDist && !vehicle.driver) {
+                closest = vehicle;
+                closestDist = dist;
+            }
+        }
+
+        return closest;
+    }
+
+    /**
+     * Spawna veículos iniciais
+     */
+    spawnInitialVehicles() {
+        // Veículos espalhados pelo mapa
+        const spawns = [
+            { type: 'fusca', x: 600, y: 500 },
+            { type: 'gol', x: 400, y: 700 },
+            { type: 'kombi', x: 800, y: 300 },
+            { type: 'chevette', x: 1200, y: 600 },
+            { type: 'opala', x: 1500, y: 800 },
+            { type: 'moto', x: 550, y: 450 },
+            // Mais veículos em outras zonas
+            { type: 'fusca', x: 2000, y: 1000 },
+            { type: 'gol', x: 2500, y: 500 },
+            { type: 'opala', x: 2800, y: 800 },
+            { type: 'kombi', x: 1000, y: 1500 },
+            { type: 'chevette', x: 1800, y: 1200 },
+            { type: 'moto', x: 2200, y: 700 },
+        ];
+
+        for (const spawn of spawns) {
+            const vehicle = new Vehicle(
+                this.scene,
+                this.physics,
+                spawn.type,
+                spawn.x,
+                spawn.y,
+                Math.random() * Math.PI * 2
+            );
+            this.vehicles.push(vehicle);
         }
     }
 

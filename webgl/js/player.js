@@ -157,7 +157,48 @@ class Player {
     }
 
     updateInVehicle(delta) {
-        // TODO: Implementar controle de veículo
+        const vehicle = this.inVehicle;
+        if (!vehicle) return;
+
+        // Aceleração (W/S)
+        vehicle.throttle = 0;
+        if (this.keys['KeyW'] || this.keys['ArrowUp']) {
+            vehicle.throttle = 1;
+        } else if (this.keys['KeyS'] || this.keys['ArrowDown']) {
+            vehicle.throttle = -1;
+        }
+
+        // Direção (A/D)
+        vehicle.steering = 0;
+        if (this.keys['KeyA'] || this.keys['ArrowLeft']) {
+            vehicle.steering = -1;
+        } else if (this.keys['KeyD'] || this.keys['ArrowRight']) {
+            vehicle.steering = 1;
+        }
+
+        // Freio de mão (Space)
+        vehicle.handbrake = this.keys['Space'];
+
+        // Atualiza posição do player para a do veículo
+        this.position.x = vehicle.position.x;
+        this.position.y = vehicle.position.y;
+        this.rotation = vehicle.rotation;
+
+        // Atualiza UI com velocidade
+        this.updateVehicleUI();
+    }
+
+    updateVehicleUI() {
+        const vehicle = this.inVehicle;
+        if (!vehicle) return;
+
+        // Mostra velocidade no HUD
+        const zonaEl = document.getElementById('zona');
+        if (zonaEl) {
+            const speed = Math.abs(Math.floor(vehicle.speed));
+            const zone = getZone(vehicle.position.x, vehicle.position.y);
+            zonaEl.textContent = `${zone.name} | ${speed} km/h`;
+        }
     }
 
     attack() {
