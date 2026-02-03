@@ -102,6 +102,15 @@ class NPC {
         this.stateTimer += delta;
         this.waypointTimer += delta;
 
+        // Aplica velocidade externa (de atropelamento, por exemplo)
+        if (Math.abs(this.velocity.x) > 1 || Math.abs(this.velocity.y) > 1) {
+            this.position.x += this.velocity.x * delta;
+            this.position.y += this.velocity.y * delta;
+            // Fricção
+            this.velocity.x *= 0.9;
+            this.velocity.y *= 0.9;
+        }
+
         // Decide comportamento baseado no estado
         switch (this.state) {
             case 'idle':

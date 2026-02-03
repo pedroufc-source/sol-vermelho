@@ -108,6 +108,9 @@ class Game {
             vehicle.update(delta);
         }
 
+        // Verifica atropelamentos
+        this.checkVehicleCollisions();
+
         // Atualiza NPCs
         this.npcManager.update(delta, this.player);
         this.npcManager.spawnNearPlayer(this.player);
@@ -236,6 +239,54 @@ class Game {
         }
 
         return closest;
+    }
+
+    /**
+     * Verifica colisões de veículos com NPCs (atropelamento)
+     */
+    checkVehicleCollisions() {
+        for (const vehicle of this.vehicles) {
+            // Só verifica se veículo está em movimento
+            if (Math.abs(vehicle.speed) < 20) continue;
+
+            // Verifica colisão com cada NPC
+            for (const npc of this.npcManager.npcs) {
+                if (npc.state === 'dead') continue;
+
+                const dist = vehicle.distanceTo(npc.position.x, npc.position.y);
+                const hitRadius = vehicle.length / 2 + npc.radius;
+
+                if (dist < hitRadius) {
+                    // Atropelamento!
+                    const damage = Math.abs(vehicle.speed) * 0.5;
+                    npc.takeDamage(damage, vehicle);
+
+                    // Empurra o NPC na direção do veículo
+                    const pushForce = vehicle.speed * 0.3;
+                    npc.velocity.x = Math.sin(vehicle.rotation) * pushForce;
+                    npc.velocity.y = Math.cos(vehicle.rotation) * pushForce;
+
+                    // Faz outros NPCs fugirem
+                    this.npcManager.fleeFrom(npc.position.x, npc.position.y, 150);
+                }
+            }
+
+            // Verifica colisão com player (se não estiver no veículo)
+            if (!this.player.inVehicle && vehicle.driver) {
+                const dist = vehicle.distanceTo(this.player.position.x, this.player.position.y);
+                const hitRadius = vehicle.length / 2 + this.player.radius;
+
+                if (dist < hitRadius) {
+                    const damage = Math.abs(vehicle.speed) * 0.3;
+                    this.player.takeDamage(damage, vehicle);
+
+                    // Empurra o player
+                    const pushForce = vehicle.speed * 0.2;
+                    this.player.velocity.x = Math.sin(vehicle.rotation) * pushForce;
+                    this.player.velocity.y = Math.cos(vehicle.rotation) * pushForce;
+                }
+            }
+        }
     }
 
     /**
