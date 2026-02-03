@@ -1,5 +1,32 @@
 # Sol Vermelho - Contexto para Claude
 
+## O QUE É ESTE JOGO
+
+**Sol Vermelho** é um jogo de ação/crime **inspirado no GTA 1** (1997), com visão **top-down** e estética de **maquete/diorama**.
+
+### Referência Principal: GTA 1
+- Câmera de cima (bird's eye view)
+- Cidades abertas para explorar
+- Missões de crime (roubo, fuga, assassinato)
+- Veículos que você pode roubar e dirigir
+- Sistema de procurado (wanted level)
+- Pedestres que você pode atropelar
+- Física arcade (carros driftam, explosões)
+
+### Nosso Diferencial
+- **Ambientação**: Fortaleza, Ceará, Brasil (2003)
+- **Crítica social**: Polícia demora mais na periferia
+- **Narrativa brasileira**: Facções fictícias, gírias cearenses
+- **Sistema CAPS**: Saúde mental afeta gameplay
+
+### Estilo Visual
+- Top-down 3D (como GTA 1/2, não GTA 3+)
+- Cores saturadas, céu azul nordestino
+- Prédios em estilo maquete/diorama
+- HUD minimalista
+
+---
+
 ## TRABALHO EM EQUIPE (Pedro + Saulo)
 
 ### Como Funciona (Assíncrono)
