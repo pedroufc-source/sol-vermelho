@@ -11,31 +11,29 @@
 
 ## Sobre
 
-**Sol Vermelho** é um jogo de ação sandbox com narrativa noir brasileira. Você assume o papel de **Raimundo "Raio" Silva**, um ex-pedreiro que, após a greve brutal da construção civil de 2003, é forçado a entrar no submundo criminoso de Fortaleza para sobreviver.
+**Sol Vermelho** é um jogo de ação sandbox com narrativa noir brasileira. Você assume o papel de **Raimundo "Raio" Silva**, um ex-pedreiro que, após a crise da construção civil de 2003, é forçado a entrar no submundo criminoso de Fortaleza para sobreviver.
 
 ### Diferenciais
 
-- **Mapa real** - Imagem de satélite de Fortaleza via Mapbox
+- **Mapa real** - Fortaleza renderizada em estilo maquete
 - **Crítica social** - Resposta policial varia por classe social do bairro
 - **Saúde mental** - Sistema CAPS com efeitos de sanidade baixa
-- **Narrativa autêntica** - Gírias cearenses, facções fictícias, órgãos reais (PM-CE, RAIO, PF)
+- **Narrativa autêntica** - Gírias cearenses, facções fictícias, órgãos reais (PM-CE, RAIO, DRACO)
 
 ---
 
 ## Como Jogar
 
-### Versão Web
-
 ```bash
 # Clone o repositório
 git clone https://github.com/pedroufc-source/sol-vermelho.git
-cd sol-vermelho/sol_vermelho_web
+cd sol-vermelho
 
 # Inicie um servidor local
 python3 -m http.server 8000
 
 # Acesse no navegador
-# http://localhost:8000
+# http://localhost:8000/game.html
 ```
 
 ### Controles
@@ -48,29 +46,41 @@ python3 -m http.server 8000
 | `Click` | Atirar |
 | `Q` | Trocar arma |
 | `E` | Entrar/Sair do veículo |
-| `P` | Pausar |
-| `ESC` | Menu |
+| `Space` | Freio de mão |
+| `ESC` | Pausar |
 
 ---
 
-## Tecnologias
-
-- **Rendering**: Three.js (WebGL)
-- **Física**: Box2D
-- **Mapa**: Mapbox Satellite API
-- **Base**: [WebGL-GTA](https://github.com/niklasvh/WebGL-GTA) por Niklas von Hertzen
-
----
-
-## Estrutura
+## Estrutura do Projeto
 
 ```
 sol-vermelho/
-├── sol_vermelho_web/       # Versão Canvas 2D (jogável)
-├── sol_vermelho_webgl/     # Versão WebGL (em desenvolvimento)
-├── CLAUDE.md               # Contexto para desenvolvimento com IA
-└── README.md
+├── src/                    # Código fonte modular
+│   ├── core/               # Engine (Game.js, Init.js)
+│   ├── entities/           # Player, Vehicle, Ped
+│   ├── systems/            # Mission, Wanted, Audio, Save
+│   ├── ui/                 # HUD, Map, styles.css
+│   └── data/               # Config, zones, missions/
+├── assets/                 # Sprites, áudio, mapas
+├── docs/                   # Documentação
+│   ├── gdd/                # Game Design Document
+│   └── research/           # Pesquisa de referência
+├── vendor/                 # Libs externas (Three.js, Box2D)
+├── game.html               # Entry point do jogo
+└── CLAUDE.md               # Contexto para IA
 ```
+
+---
+
+## Documentação
+
+| Doc | Descrição |
+|-----|-----------|
+| [CLAUDE.md](CLAUDE.md) | Contexto para desenvolvimento com IA |
+| [docs/gdd/ROTEIRO.md](docs/gdd/ROTEIRO.md) | História, personagens, missões |
+| [docs/VIBE_CODING_GUIDE.md](docs/VIBE_CODING_GUIDE.md) | Boas práticas de vibe coding |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Como contribuir |
+| [CHANGELOG.md](CHANGELOG.md) | Histórico de mudanças |
 
 ---
 
@@ -78,43 +88,45 @@ sol-vermelho/
 
 ### Implementadas
 - [x] Movimento e combate
-- [x] 8 armas (punhos, faca, pistola, UZI, shotgun, rifle, molotov, granada)
-- [x] 8 tipos de veículos
+- [x] 8 armas (punhos, pistola, UZI, shotgun)
+- [x] Veículos com física de drift
 - [x] 12 missões (Capítulos 1 e 2)
-- [x] Sistema de wanted level (6 estrelas)
+- [x] Sistema de wanted (6 estrelas)
 - [x] Resposta policial por zona
 - [x] Sistema CAPS (saúde mental)
 - [x] Save/Load
-- [x] Ciclo dia/noite
 
 ### Em Desenvolvimento
-- [ ] Engine WebGL com escalas corretas
+- [ ] Integração WebGL com escalas corretas
 - [ ] Capítulos 3 e 4
 - [ ] Trilha sonora
-- [ ] Efeitos sonoros
+- [ ] Multiplayer local
 
 ---
 
-## Facções
+## Tecnologias
 
-| Facção | Líder | Território |
-|--------|-------|------------|
-| Comando do Litoral | Bubba Serafim | Porto das Dunas → Praia do Futuro |
-| Filhos do Dragão | Tio Fung | Centro, Mucuripe |
-| Igreja Renascer | Pastor Marcos | Aldeota (fachada) |
+- **Rendering**: Canvas 2D / WebGL (Three.js)
+- **Física**: Box2D
+- **Base**: [WebGL-GTA](https://github.com/niklasvh/WebGL-GTA) por Niklas von Hertzen
 
 ---
 
-## Contribuindo
+## Equipe
+
+- **Pedro Rocha de Oliveira** - Criação, roteiro, gameplay
+- **Saulo** - Programação, engine
+
+### Contribuindo
 
 Estamos recrutando! Se você manja de:
 - JavaScript / WebGL / Three.js
-- Game design
+- Game design / Level design
 - Pixel art / Sprites
 - Sound design
 - Narrativa
 
-Entre em contato!
+Veja [CONTRIBUTING.md](CONTRIBUTING.md) ou entre em contato!
 
 ---
 
@@ -126,10 +138,10 @@ MIT License - veja [LICENSE](LICENSE)
 
 ## Créditos
 
-- **Desenvolvimento**: Pedro Rocha de Oliveira
 - **Engine base**: [WebGL-GTA](https://github.com/niklasvh/WebGL-GTA) por Niklas von Hertzen
 - **Inspirações**: GTA 1, Tropa de Elite, Cidade de Deus, Bacurau
+- **Pesquisa**: LEV/UFC, trabalhos de Jania Aquino, Luiz Fábio Paiva
 
 ---
 
-*"No sol vermelho de Fortaleza, todo mundo tem um preço."*
+*"Eu só queria construir alguma coisa. Agora eu destruo."* — Raio
