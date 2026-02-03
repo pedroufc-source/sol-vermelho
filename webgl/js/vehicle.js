@@ -11,9 +11,9 @@ const VEHICLE_TYPES = {
         length: 50,
         height: 25,
         maxSpeed: 300,
-        acceleration: 150,
-        handling: 0.04,
-        braking: 200,
+        acceleration: 600,      // 4x mais rápido
+        handling: 0.06,
+        braking: 800,
         mass: 800
     },
     gol: {
@@ -23,9 +23,9 @@ const VEHICLE_TYPES = {
         length: 45,
         height: 22,
         maxSpeed: 350,
-        acceleration: 180,
-        handling: 0.05,
-        braking: 220,
+        acceleration: 700,
+        handling: 0.07,
+        braking: 900,
         mass: 750
     },
     kombi: {
@@ -35,9 +35,9 @@ const VEHICLE_TYPES = {
         length: 60,
         height: 35,
         maxSpeed: 200,
-        acceleration: 80,
-        handling: 0.025,
-        braking: 150,
+        acceleration: 300,      // Lenta mas ok
+        handling: 0.035,
+        braking: 500,
         mass: 1200
     },
     chevette: {
@@ -47,9 +47,9 @@ const VEHICLE_TYPES = {
         length: 48,
         height: 22,
         maxSpeed: 320,
-        acceleration: 160,
-        handling: 0.045,
-        braking: 200,
+        acceleration: 650,
+        handling: 0.065,
+        braking: 850,
         mass: 780
     },
     opala: {
@@ -59,9 +59,9 @@ const VEHICLE_TYPES = {
         length: 58,
         height: 24,
         maxSpeed: 400,
-        acceleration: 200,
-        handling: 0.035,
-        braking: 180,
+        acceleration: 800,      // Potente
+        handling: 0.05,
+        braking: 700,
         mass: 1100
     },
     moto: {
@@ -71,9 +71,9 @@ const VEHICLE_TYPES = {
         length: 30,
         height: 18,
         maxSpeed: 450,
-        acceleration: 250,
-        handling: 0.08,
-        braking: 300,
+        acceleration: 1000,     // Super rápida
+        handling: 0.12,
+        braking: 1200,
         mass: 200
     }
 };
