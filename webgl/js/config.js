@@ -18,7 +18,7 @@ const CONFIG = {
     // Player
     PLAYER_SPEED: 200,      // Velocidade andando
     PLAYER_RUN_SPEED: 350,  // Velocidade correndo
-    PLAYER_SIZE: 20,        // Raio do player
+    PLAYER_SIZE: 8,         // Raio do player (proporcional aos carros)
 
     // Cores
     COLORS: {

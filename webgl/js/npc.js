@@ -58,7 +58,7 @@ class NPC {
         this.position = { x, y };
         this.velocity = { x: 0, y: 0 };
         this.rotation = Math.random() * Math.PI * 2;
-        this.radius = 15;
+        this.radius = 6;  // Pessoas são finas
 
         // Estado
         this.state = 'idle'; // idle, walking, fleeing, attacking, dead
@@ -79,20 +79,20 @@ class NPC {
     }
 
     createMesh(color) {
-        // Corpo (cilindro)
-        const bodyGeometry = new THREE.CylinderGeometry(this.radius, this.radius, 35, 8);
+        // Corpo (cilindro fino)
+        const bodyGeometry = new THREE.CylinderGeometry(this.radius, this.radius, 18, 8);
         const bodyMaterial = new THREE.MeshBasicMaterial({ color });
         this.mesh = new THREE.Mesh(bodyGeometry, bodyMaterial);
 
-        // Cabeça (esfera)
-        const headGeometry = new THREE.SphereGeometry(8, 8, 8);
+        // Cabeça (esfera pequena)
+        const headGeometry = new THREE.SphereGeometry(4, 8, 8);
         const headMaterial = new THREE.MeshBasicMaterial({ color: 0xdeb887 }); // Pele
         const head = new THREE.Mesh(headGeometry, headMaterial);
-        head.position.y = 25;
+        head.position.y = 12;
         this.mesh.add(head);
 
         // Posicionar
-        this.mesh.position.set(this.position.x, 17, this.position.y);
+        this.mesh.position.set(this.position.x, 9, this.position.y);
         this.scene.add(this.mesh);
     }
 

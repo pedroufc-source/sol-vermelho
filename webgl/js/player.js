@@ -44,24 +44,31 @@ class Player {
     }
 
     createMesh() {
-        // Corpo (cilindro)
+        // Corpo (cilindro pequeno)
         const bodyGeometry = new THREE.CylinderGeometry(
-            this.radius, this.radius, 40, 8
+            this.radius, this.radius, 20, 8
         );
         const bodyMaterial = new THREE.MeshBasicMaterial({
             color: CONFIG.COLORS.PLAYER
         });
         this.mesh = new THREE.Mesh(bodyGeometry, bodyMaterial);
 
+        // Cabeça
+        const headGeometry = new THREE.SphereGeometry(5, 8, 8);
+        const headMaterial = new THREE.MeshBasicMaterial({ color: 0xdeb887 });
+        const head = new THREE.Mesh(headGeometry, headMaterial);
+        head.position.y = 14;
+        this.mesh.add(head);
+
         // Indicador de direção (cone na frente)
-        const dirGeometry = new THREE.ConeGeometry(8, 20, 4);
+        const dirGeometry = new THREE.ConeGeometry(4, 10, 4);
         const dirMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
         this.dirIndicator = new THREE.Mesh(dirGeometry, dirMaterial);
         this.dirIndicator.rotation.x = Math.PI / 2;
-        this.dirIndicator.position.z = this.radius + 10;
+        this.dirIndicator.position.z = this.radius + 6;
         this.mesh.add(this.dirIndicator);
 
-        this.mesh.position.set(this.position.x, 20, this.position.y);
+        this.mesh.position.set(this.position.x, 10, this.position.y);
         this.scene.add(this.mesh);
     }
 
@@ -131,6 +138,7 @@ class Player {
 
         // Atualiza mesh
         this.mesh.position.x = this.position.x;
+        this.mesh.position.y = 10;
         this.mesh.position.z = this.position.y;
         this.mesh.rotation.y = -this.rotation;
     }
@@ -242,8 +250,8 @@ class Player {
     createMuzzleFlash(dir, range) {
         const geometry = new THREE.BufferGeometry();
         const positions = new Float32Array([
-            this.position.x, 25, this.position.y,
-            this.position.x + dir.x * range, 25, this.position.y + dir.y * range
+            this.position.x, 15, this.position.y,
+            this.position.x + dir.x * range, 15, this.position.y + dir.y * range
         ]);
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
