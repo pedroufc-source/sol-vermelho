@@ -1,0 +1,86 @@
+SOL VERMELHO - Briefing do Projeto
+====================================
+
+CONCEITO
+Jogo de crime/sandbox estilo GTA 1 ambientado em Fortaleza, Ceará, 2026. Narrativa noir brasileira com crítica social, humor negro cearense e múltiplos finais.
+
+PROTAGONISTA
+Raimundo "Raio" Silva - Ex-pedreiro de 28 anos do Bom Jardim. Perdeu tudo na crise da construção civil e foi arrastado para o crime por desespero.
+
+Ironia central: apelidado "Raio" por ser rápido, agora é caçado pelo Batalhão RAIO da PM.
+
+"Eu só queria construir alguma coisa. Agora eu destruo."
+
+------------------------------------
+
+ESTRUTURA - 4 CAPÍTULOS
+
+Cap 1 - Porto das Dunas
+Chefe: Bubba Serafim (Comando do Litoral)
+Meta: 100k reputação
+
+Cap 2 - Centro de Fortaleza
+Chefe: Tio Fung (Filhos do Dragão)
+Meta: 250k reputação
+
+Cap 3 - Aldeota/Meireles
+Chefe: Pastor Marcos (Igreja Renascer)
+Meta: 500k reputação
+
+Cap 4 - Sol Vermelho
+Guerra total / Polícia Federal
+Meta: 1M reputação + final
+
+Total: 24 missões planejadas, 12 já implementadas
+
+------------------------------------
+
+SISTEMAS IMPLEMENTADOS
+
+Gameplay:
+- Movimento WASD, correr, mirar com mouse
+- 8 armas (punhos, faca, pistola, UZI, shotgun, rifle, molotov, granada)
+- 8 veículos (sedan, moto, viatura, etc.)
+- Wanted Level 1-6 estrelas (PM > RAIO > PF)
+
+Sistemas Únicos:
+- Resposta policial por zona (Aldeota = 1s / Periferia = 5s+)
+- Saúde Mental com CAPS (fila de 2 pessoas/dia)
+- Pensamentos intrusivos quando sanidade baixa
+- Ciclo dia/noite dinâmico
+- Sistema de clima
+
+Infraestrutura:
+- Save/Load com LocalStorage
+- Menu de pausa
+- Aviso 18+ e disclaimer legal
+- HUD completo (vida, armor, dinheiro, minimap, wanted)
+
+------------------------------------
+
+DIFERENCIAL DO PROJETO
+
+1. Narrativa brasileira autêntica (gírias cearenses, órgãos reais)
+2. Crítica social integrada na gameplay
+3. Sistema de saúde mental com consequências
+4. Versões 2D (Canvas) e 3D (WebGL) paralelas
+5. 3 finais divergentes baseados em lealdades
+
+------------------------------------
+
+STATUS ATUAL
+
+[OK] Capítulo 1 completo (6 missões)
+[OK] Capítulo 2 completo (6 missões)
+[OK] Sistema save/load
+[OK] Sistema de sanidade/CAPS
+[OK] Resposta policial por zona
+[OK] Aviso de idade
+[  ] Capítulos 3 e 4
+[  ] Integração WebGL-GTA
+
+~2.700 linhas de código nos arquivos principais
+
+------------------------------------
+
+Referências: GTA 1, Tropa de Elite, Cidade de Deus, Bacurau

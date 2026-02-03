@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128">
-  <rect width="128" height="128" fill="#1a1a2e"/>
-  <circle cx="64" cy="50" r="30" fill="#e94560"/>
-  <polygon points="64,85 44,110 84,110" fill="#e94560"/>
-  <text x="64" y="125" font-family="Arial" font-size="12" fill="#fff" text-anchor="middle">SOL VERMELHO</text>
-</svg>

@@ -89,6 +89,11 @@ logs/
 *.wav
 *.mp3
 *.ogg
+
+# ===== Archive (versões antigas) =====
+_archive/
+
+# ===== Legado (remover depois de migrar) =====
 gta1_assets/gta1_extracted/
 gta1_assets/gta1.zip
 gta1_assets/WebGL-GTA/

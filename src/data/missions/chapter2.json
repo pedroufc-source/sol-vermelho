@@ -1,0 +1,82 @@
+{
+    "chapter": 2,
+    "title": "CENTRO DE FORTALEZA",
+    "intro": "A DHPP abriu inquérito. O RAIO está rondando. A Tropa manda você sumir. Procure Tio Lau na Rua 24 de Maio.",
+    "missions": [
+        {
+            "id": "mission_7",
+            "type": "recon",
+            "title": "OLHEIRO",
+            "desc": "A DHPP abriu inquerito. A Tropa manda sumir.\nProcure Tio Lau na Rua 24 de Maio.",
+            "phases": [
+                { "type": "goto", "desc": "Va ate o restaurante do Tio Lau", "x": 1400, "y": 1900, "radius": 50 },
+                { "type": "goto", "desc": "Conheca o Tio Lau", "x": 1400, "y": 1900, "radius": 30 },
+                { "type": "goto", "desc": "Vigiar o galpao dos Cargueiros na BR-116", "x": 600, "y": 2800, "radius": 60 },
+                { "type": "wait", "desc": "Observe e conte quantos sao...", "time": 120 }
+            ],
+            "reward": 1200
+        },
+        {
+            "id": "mission_8",
+            "type": "hijack",
+            "title": "INTERCEPTACAO",
+            "desc": "Os Cargueiros roubaram um caminhao do Tio Lau.\nRecupere a carga do Porto do Mucuripe.",
+            "phases": [
+                { "type": "goto", "desc": "Ache o caminhao na BR-116", "x": 500, "y": 3200, "radius": 60 },
+                { "type": "kill", "desc": "Elimine os guardas", "target": 3, "x": 500, "y": 3200 },
+                { "type": "goto", "desc": "Leve o caminhao pro deposito", "x": 1200, "y": 2000, "radius": 80 }
+            ],
+            "reward": 2000
+        },
+        {
+            "id": "mission_9",
+            "type": "escort",
+            "title": "JOGO DO BICHO",
+            "desc": "Proteja o bicheiro do Tio Lau durante a coleta.\nOs Cargueiros querem o ponto.",
+            "phases": [
+                { "type": "goto", "desc": "Encontre o bicheiro na Praca do Ferreira", "x": 1500, "y": 1600, "radius": 50 },
+                { "type": "kill", "desc": "Defenda o bicheiro dos Cargueiros!", "target": 4, "x": 1500, "y": 1600 },
+                { "type": "goto", "desc": "Escolte ele de volta pro restaurante", "x": 1400, "y": 1900, "radius": 60 }
+            ],
+            "reward": 2500
+        },
+        {
+            "id": "mission_10",
+            "type": "intimidate",
+            "title": "O AGIOTA",
+            "desc": "Um comerciante no Mercado Central deve R$15.000.\nConvence ele. Morto nao paga divida.",
+            "phases": [
+                { "type": "goto", "desc": "Va ate o Mercado Central", "x": 1600, "y": 1700, "radius": 50 },
+                { "type": "kill", "desc": "Pressione o comerciante (mate os segurancas)", "target": 2, "x": 1600, "y": 1700 },
+                { "type": "goto", "desc": "Volte pro Tio Lau com o dinheiro", "x": 1400, "y": 1900, "radius": 60 }
+            ],
+            "reward": 3000
+        },
+        {
+            "id": "mission_11",
+            "type": "ambush",
+            "title": "EMBOSCADA",
+            "desc": "Hora de acabar com os Cargueiros.\nPaciencia e a arma do homem sabio.",
+            "phases": [
+                { "type": "goto", "desc": "Va ate o ponto da emboscada", "x": 400, "y": 3000, "radius": 60 },
+                { "type": "wait", "desc": "Espere o caminhao falso atrair os Cargueiros...", "time": 90 },
+                { "type": "kill", "desc": "EMBOSCADA! Elimine todos!", "target": 6, "x": 400, "y": 3000 },
+                { "type": "flee", "desc": "A PM ta vindo! Saia da BR!", "x": 1000, "y": 2400, "radius": 80, "wanted": 3 }
+            ],
+            "reward": 4000
+        },
+        {
+            "id": "mission_12",
+            "type": "assassination",
+            "title": "ELIAS BURRO",
+            "desc": "O chefe dos Cargueiros ta no galpao principal.\nA DRACO e o GAECO tao de olho.",
+            "phases": [
+                { "type": "goto", "desc": "Va ate o Distrito Industrial", "x": 300, "y": 3400, "radius": 70 },
+                { "type": "kill", "desc": "Elimine os guardas do galpao", "target": 4, "x": 300, "y": 3400 },
+                { "type": "kill", "desc": "MATE ELIAS BURRO!", "target": 1, "x": 300, "y": 3400 },
+                { "type": "flee", "desc": "A DRACO ta vindo! FOGE!", "x": 1200, "y": 2200, "radius": 100, "wanted": 5 }
+            ],
+            "reward": 8000
+        }
+    ]
+}

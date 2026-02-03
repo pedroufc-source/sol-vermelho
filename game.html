@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOL VERMELHO - Fortaleza</title>
+    <link rel="stylesheet" href="src/ui/styles.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- Aviso de Idade -->
+        <div id="age-warning">
+            <div class="age-box">
+                <h1>18+</h1>
+                <h2>CLASSIFICAÇÃO INDICATIVA</h2>
+                <p><strong>Este jogo contém:</strong></p>
+                <p>
+                    • Violência intensa e simulada<br>
+                    • Temas adultos relacionados a crime organizado<br>
+                    • Linguagem forte<br>
+                    • Representação de atividades ilegais
+                </p>
+                <p class="disclaimer">
+                    <strong>AVISO LEGAL:</strong> Sol Vermelho é uma obra de ficção.
+                    Todos os personagens, facções criminosas e eventos são fictícios.
+                    Qualquer semelhança com pessoas reais, vivas ou mortas, ou eventos reais é mera coincidência.
+                    Os bairros de Fortaleza são usados apenas como ambientação ficcional.
+                    Este jogo não promove nem glorifica atividades criminosas.
+                </p>
+                <div class="btn-group">
+                    <button class="btn btn-confirm" onclick="confirmAge()">TENHO 18 ANOS OU MAIS</button>
+                    <button class="btn btn-exit" onclick="window.location='about:blank'">SAIR</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Canvas principal -->
+        <canvas id="game" width="800" height="600"></canvas>
+
+        <!-- HUD -->
+        <div id="hud">
+            <div id="hud-left">
+                <div class="hud-bar"><div class="hud-bar-fill" id="health-fill" style="width:100%"></div></div>
+                <div class="hud-bar"><div class="hud-bar-fill" id="armor-fill" style="width:0%"></div></div>
+            </div>
+            <div id="hud-right">
+                <div id="wanted"></div>
+                <div id="money">$0</div>
+                <div id="score">0</div>
+                <div id="weapon">PUNHOS</div>
+                <div id="zona">---</div>
+            </div>
+        </div>
+
+        <div id="message"></div>
+        <canvas id="minimap" width="120" height="120"></canvas>
+        <div id="speed">0 km/h</div>
+        <div id="mission-hud"></div>
+        <div id="controls">WASD Mover | SHIFT Correr | E Veículo | Q Arma | ESC Pause | SPACE Freio</div>
+
+        <!-- Telas -->
+        <div id="loading">
+            <div>CARREGANDO...</div>
+            <div id="loading-bar"><div id="loading-fill"></div></div>
+        </div>
+
+        <div id="start-screen">
+            <h1>☠ SOL VERMELHO ☠</h1>
+            <h2>Fortaleza - Fevereiro de 2003</h2>
+            <div class="menu-buttons">
+                <button class="btn" onclick="showIntro()">NOVO JOGO</button>
+                <button class="btn btn-secondary" id="continue-btn" onclick="loadAndStart()" style="display:none;">CONTINUAR</button>
+            </div>
+        </div>
+
+        <div id="intro-screen">
+            <div class="intro-content">
+                <div id="intro-text"></div>
+                <button class="btn" id="intro-btn" onclick="advanceIntro()">...</button>
+            </div>
+        </div>
+
+        <div id="death-screen">
+            <h1>WASTED</h1>
+            <p id="death-stats"></p>
+            <button class="btn" onclick="respawn()">CONTINUAR</button>
+        </div>
+
+        <div id="pause-menu">
+            <h1>PAUSADO</h1>
+            <div class="menu-buttons">
+                <button class="btn" onclick="resumeGame()">CONTINUAR</button>
+                <button class="btn btn-secondary" onclick="saveGame()">SALVAR JOGO</button>
+                <button class="btn btn-secondary" onclick="quitToMenu()">MENU PRINCIPAL</button>
+            </div>
+        </div>
+
+        <div id="save-indicator">JOGO SALVO</div>
+    </div>
+
+    <!-- Scripts na ordem correta de dependência -->
+
+    <!-- Configurações e dados -->
+    <script src="src/data/config.js"></script>
+    <script src="src/data/zones.js"></script>
+
+    <!-- Sistemas -->
+    <script src="src/systems/AudioSystem.js"></script>
+    <script src="src/systems/ParticleSystem.js"></script>
+    <script src="src/systems/SaveSystem.js"></script>
+    <script src="src/systems/WantedSystem.js"></script>
+    <script src="src/systems/MissionSystem.js"></script>
+
+    <!-- UI -->
+    <script src="src/ui/HUD.js"></script>
+    <script src="src/ui/Map.js"></script>
+
+    <!-- Entidades -->
+    <script src="src/entities/Projectile.js"></script>
+    <script src="src/entities/Ped.js"></script>
+    <script src="src/entities/Vehicle.js"></script>
+    <script src="src/entities/Player.js"></script>
+
+    <!-- Core (deve ser o último) -->
+    <script src="src/core/Game.js"></script>
+
+    <!-- Sistema de sanidade (opcional) -->
+    <script src="sol_vermelho_web/sanidade.js"></script>
+
+    <!-- Inicialização -->
+    <script src="src/core/Init.js"></script>
+</body>
+</html>
