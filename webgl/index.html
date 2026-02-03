@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sol Vermelho - WebGL</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Three.js canvas será adicionado aqui -->
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+        <div id="hud-left">
+            <div id="health">HP: <span>100</span></div>
+            <div id="money">R$ <span>0</span></div>
+        </div>
+        <div id="hud-right">
+            <div id="weapon">Punhos</div>
+            <div id="zona">Barra do Ceará</div>
+        </div>
+    </div>
+
+    <!-- Debug info -->
+    <div id="debug">
+        <div>FPS: <span id="fps">0</span></div>
+        <div>Pos: <span id="pos">0, 0</span></div>
+        <div>Zona: <span id="zone-debug">-</span></div>
+    </div>
+
+    <!-- Tela inicial -->
+    <div id="start-screen">
+        <h1>SOL VERMELHO</h1>
+        <h2>Fortaleza, 2003</h2>
+        <button id="start-btn" class="btn">JOGAR</button>
+        <p class="controls-hint">WASD = Mover | Mouse = Mirar | Click = Atirar</p>
+    </div>
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- TODO: Adicionar Box2D para física de veículos -->
+
+    <!-- Game modules -->
+    <script src="js/config.js"></script>
+    <script src="js/zones.js"></script>
+    <script src="js/physics.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/init.js"></script>
+</body>
+</html>
