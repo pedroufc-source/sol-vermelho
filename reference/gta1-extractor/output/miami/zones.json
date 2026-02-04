@@ -1,0 +1,123 @@
+[
+  {
+    "id": 0,
+    "name": "Coral City",
+    "x": 63,
+    "y": 39,
+    "width": 65,
+    "height": 62,
+    "sample": 8,
+    "centerX": 95,
+    "centerY": 70
+  },
+  {
+    "id": 1,
+    "name": "Little Bogota",
+    "x": 1,
+    "y": 128,
+    "width": 62,
+    "height": 73,
+    "sample": 5,
+    "centerX": 32,
+    "centerY": 164
+  },
+  {
+    "id": 2,
+    "name": "Miramire",
+    "x": 1,
+    "y": 1,
+    "width": 127,
+    "height": 38,
+    "sample": 9,
+    "centerX": 64,
+    "centerY": 20
+  },
+  {
+    "id": 3,
+    "name": "Little Dominica",
+    "x": 1,
+    "y": 39,
+    "width": 62,
+    "height": 89,
+    "sample": 7,
+    "centerX": 32,
+    "centerY": 83
+  },
+  {
+    "id": 4,
+    "name": "Greek Heights",
+    "x": 63,
+    "y": 101,
+    "width": 65,
+    "height": 100,
+    "sample": 6,
+    "centerX": 95,
+    "centerY": 151
+  },
+  {
+    "id": 5,
+    "name": "Felicity",
+    "x": 128,
+    "y": 131,
+    "width": 61,
+    "height": 111,
+    "sample": 3,
+    "centerX": 158,
+    "centerY": 186
+  },
+  {
+    "id": 6,
+    "name": "Vice Beach",
+    "x": 193,
+    "y": 0,
+    "width": 58,
+    "height": 118,
+    "sample": 1,
+    "centerX": 222,
+    "centerY": 59
+  },
+  {
+    "id": 7,
+    "name": "Richman Heights",
+    "x": 1,
+    "y": 201,
+    "width": 127,
+    "height": 55,
+    "sample": 4,
+    "centerX": 64,
+    "centerY": 228
+  },
+  {
+    "id": 8,
+    "name": "Vice Shores",
+    "x": 128,
+    "y": 1,
+    "width": 56,
+    "height": 130,
+    "sample": 10,
+    "centerX": 156,
+    "centerY": 66
+  },
+  {
+    "id": 9,
+    "name": "Banana Grove",
+    "x": 189,
+    "y": 125,
+    "width": 65,
+    "height": 130,
+    "sample": 2,
+    "centerX": 221,
+    "centerY": 190
+  },
+  {
+    "id": 10,
+    "name": "Vice City",
+    "x": 1,
+    "y": 1,
+    "width": 254,
+    "height": 255,
+    "sample": 11,
+    "centerX": 128,
+    "centerY": 128
+  }
+]

@@ -1,0 +1,516 @@
+{
+  "source": "vocalcom",
+  "stats": {
+    "totalSounds": 71,
+    "totalBytes": 1306454,
+    "totalDurationMs": 87335,
+    "totalDurationFormatted": "1m 27s",
+    "averageDurationMs": 1230,
+    "shortestMs": 3,
+    "longestMs": 2818,
+    "sampleRates": {
+      "11025": 53,
+      "22050": 16,
+      "32000": 2
+    }
+  },
+  "sounds": [
+    {
+      "id": 0,
+      "sampleRate": 22050,
+      "durationMs": 2508,
+      "sizeBytes": 55296,
+      "fileName": "vocalcom_0000.wav"
+    },
+    {
+      "id": 1,
+      "sampleRate": 22050,
+      "durationMs": 2206,
+      "sizeBytes": 48642,
+      "fileName": "vocalcom_0001.wav"
+    },
+    {
+      "id": 2,
+      "sampleRate": 22050,
+      "durationMs": 1387,
+      "sizeBytes": 30577,
+      "fileName": "vocalcom_0002.wav"
+    },
+    {
+      "id": 3,
+      "sampleRate": 22050,
+      "durationMs": 2818,
+      "sizeBytes": 62142,
+      "fileName": "vocalcom_0003.wav"
+    },
+    {
+      "id": 4,
+      "sampleRate": 22050,
+      "durationMs": 1757,
+      "sizeBytes": 38734,
+      "fileName": "vocalcom_0004.wav"
+    },
+    {
+      "id": 5,
+      "sampleRate": 22050,
+      "durationMs": 1801,
+      "sizeBytes": 39712,
+      "fileName": "vocalcom_0005.wav"
+    },
+    {
+      "id": 6,
+      "sampleRate": 22050,
+      "durationMs": 1314,
+      "sizeBytes": 28971,
+      "fileName": "vocalcom_0006.wav"
+    },
+    {
+      "id": 7,
+      "sampleRate": 22050,
+      "durationMs": 1485,
+      "sizeBytes": 32735,
+      "fileName": "vocalcom_0007.wav"
+    },
+    {
+      "id": 8,
+      "sampleRate": 22050,
+      "durationMs": 1042,
+      "sizeBytes": 22983,
+      "fileName": "vocalcom_0008.wav"
+    },
+    {
+      "id": 9,
+      "sampleRate": 22050,
+      "durationMs": 969,
+      "sizeBytes": 21370,
+      "fileName": "vocalcom_0009.wav"
+    },
+    {
+      "id": 10,
+      "sampleRate": 22050,
+      "durationMs": 1191,
+      "sizeBytes": 26254,
+      "fileName": "vocalcom_0010.wav"
+    },
+    {
+      "id": 11,
+      "sampleRate": 22050,
+      "durationMs": 2067,
+      "sizeBytes": 45571,
+      "fileName": "vocalcom_0011.wav"
+    },
+    {
+      "id": 12,
+      "sampleRate": 22050,
+      "durationMs": 1282,
+      "sizeBytes": 28277,
+      "fileName": "vocalcom_0012.wav"
+    },
+    {
+      "id": 13,
+      "sampleRate": 22050,
+      "durationMs": 3,
+      "sizeBytes": 60,
+      "fileName": "vocalcom_0013.wav"
+    },
+    {
+      "id": 14,
+      "sampleRate": 32000,
+      "durationMs": 1497,
+      "sizeBytes": 47909,
+      "fileName": "vocalcom_0014.wav"
+    },
+    {
+      "id": 15,
+      "sampleRate": 32000,
+      "durationMs": 1505,
+      "sizeBytes": 48161,
+      "fileName": "vocalcom_0015.wav"
+    },
+    {
+      "id": 16,
+      "sampleRate": 22050,
+      "durationMs": 1078,
+      "sizeBytes": 23773,
+      "fileName": "vocalcom_0016.wav"
+    },
+    {
+      "id": 17,
+      "sampleRate": 22050,
+      "durationMs": 2548,
+      "sizeBytes": 56180,
+      "fileName": "vocalcom_0017.wav"
+    },
+    {
+      "id": 18,
+      "sampleRate": 11025,
+      "durationMs": 688,
+      "sizeBytes": 7581,
+      "fileName": "vocalcom_0018.wav"
+    },
+    {
+      "id": 19,
+      "sampleRate": 11025,
+      "durationMs": 679,
+      "sizeBytes": 7491,
+      "fileName": "vocalcom_0019.wav"
+    },
+    {
+      "id": 20,
+      "sampleRate": 11025,
+      "durationMs": 705,
+      "sizeBytes": 7776,
+      "fileName": "vocalcom_0020.wav"
+    },
+    {
+      "id": 21,
+      "sampleRate": 11025,
+      "durationMs": 882,
+      "sizeBytes": 9728,
+      "fileName": "vocalcom_0021.wav"
+    },
+    {
+      "id": 22,
+      "sampleRate": 11025,
+      "durationMs": 620,
+      "sizeBytes": 6834,
+      "fileName": "vocalcom_0022.wav"
+    },
+    {
+      "id": 23,
+      "sampleRate": 11025,
+      "durationMs": 598,
+      "sizeBytes": 6597,
+      "fileName": "vocalcom_0023.wav"
+    },
+    {
+      "id": 24,
+      "sampleRate": 11025,
+      "durationMs": 697,
+      "sizeBytes": 7680,
+      "fileName": "vocalcom_0024.wav"
+    },
+    {
+      "id": 25,
+      "sampleRate": 11025,
+      "durationMs": 903,
+      "sizeBytes": 9959,
+      "fileName": "vocalcom_0025.wav"
+    },
+    {
+      "id": 26,
+      "sampleRate": 11025,
+      "durationMs": 992,
+      "sizeBytes": 10936,
+      "fileName": "vocalcom_0026.wav"
+    },
+    {
+      "id": 27,
+      "sampleRate": 11025,
+      "durationMs": 691,
+      "sizeBytes": 7619,
+      "fileName": "vocalcom_0027.wav"
+    },
+    {
+      "id": 28,
+      "sampleRate": 11025,
+      "durationMs": 634,
+      "sizeBytes": 6989,
+      "fileName": "vocalcom_0028.wav"
+    },
+    {
+      "id": 29,
+      "sampleRate": 11025,
+      "durationMs": 1265,
+      "sizeBytes": 13942,
+      "fileName": "vocalcom_0029.wav"
+    },
+    {
+      "id": 30,
+      "sampleRate": 11025,
+      "durationMs": 1162,
+      "sizeBytes": 12812,
+      "fileName": "vocalcom_0030.wav"
+    },
+    {
+      "id": 31,
+      "sampleRate": 11025,
+      "durationMs": 620,
+      "sizeBytes": 6837,
+      "fileName": "vocalcom_0031.wav"
+    },
+    {
+      "id": 32,
+      "sampleRate": 11025,
+      "durationMs": 662,
+      "sizeBytes": 7296,
+      "fileName": "vocalcom_0032.wav"
+    },
+    {
+      "id": 33,
+      "sampleRate": 11025,
+      "durationMs": 1262,
+      "sizeBytes": 13913,
+      "fileName": "vocalcom_0033.wav"
+    },
+    {
+      "id": 34,
+      "sampleRate": 11025,
+      "durationMs": 1174,
+      "sizeBytes": 12939,
+      "fileName": "vocalcom_0034.wav"
+    },
+    {
+      "id": 35,
+      "sampleRate": 11025,
+      "durationMs": 1104,
+      "sizeBytes": 12177,
+      "fileName": "vocalcom_0035.wav"
+    },
+    {
+      "id": 36,
+      "sampleRate": 11025,
+      "durationMs": 1223,
+      "sizeBytes": 13487,
+      "fileName": "vocalcom_0036.wav"
+    },
+    {
+      "id": 37,
+      "sampleRate": 11025,
+      "durationMs": 1274,
+      "sizeBytes": 14049,
+      "fileName": "vocalcom_0037.wav"
+    },
+    {
+      "id": 38,
+      "sampleRate": 11025,
+      "durationMs": 1047,
+      "sizeBytes": 11544,
+      "fileName": "vocalcom_0038.wav"
+    },
+    {
+      "id": 39,
+      "sampleRate": 11025,
+      "durationMs": 1192,
+      "sizeBytes": 13141,
+      "fileName": "vocalcom_0039.wav"
+    },
+    {
+      "id": 40,
+      "sampleRate": 11025,
+      "durationMs": 1020,
+      "sizeBytes": 11251,
+      "fileName": "vocalcom_0040.wav"
+    },
+    {
+      "id": 41,
+      "sampleRate": 11025,
+      "durationMs": 1779,
+      "sizeBytes": 19608,
+      "fileName": "vocalcom_0041.wav"
+    },
+    {
+      "id": 42,
+      "sampleRate": 11025,
+      "durationMs": 1216,
+      "sizeBytes": 13404,
+      "fileName": "vocalcom_0042.wav"
+    },
+    {
+      "id": 43,
+      "sampleRate": 11025,
+      "durationMs": 752,
+      "sizeBytes": 8288,
+      "fileName": "vocalcom_0043.wav"
+    },
+    {
+      "id": 44,
+      "sampleRate": 11025,
+      "durationMs": 1016,
+      "sizeBytes": 11200,
+      "fileName": "vocalcom_0044.wav"
+    },
+    {
+      "id": 45,
+      "sampleRate": 11025,
+      "durationMs": 640,
+      "sizeBytes": 7051,
+      "fileName": "vocalcom_0045.wav"
+    },
+    {
+      "id": 46,
+      "sampleRate": 11025,
+      "durationMs": 1397,
+      "sizeBytes": 15401,
+      "fileName": "vocalcom_0046.wav"
+    },
+    {
+      "id": 47,
+      "sampleRate": 11025,
+      "durationMs": 1367,
+      "sizeBytes": 15071,
+      "fileName": "vocalcom_0047.wav"
+    },
+    {
+      "id": 48,
+      "sampleRate": 11025,
+      "durationMs": 1581,
+      "sizeBytes": 17436,
+      "fileName": "vocalcom_0048.wav"
+    },
+    {
+      "id": 49,
+      "sampleRate": 11025,
+      "durationMs": 1334,
+      "sizeBytes": 14704,
+      "fileName": "vocalcom_0049.wav"
+    },
+    {
+      "id": 50,
+      "sampleRate": 11025,
+      "durationMs": 1144,
+      "sizeBytes": 12614,
+      "fileName": "vocalcom_0050.wav"
+    },
+    {
+      "id": 51,
+      "sampleRate": 11025,
+      "durationMs": 1214,
+      "sizeBytes": 13380,
+      "fileName": "vocalcom_0051.wav"
+    },
+    {
+      "id": 52,
+      "sampleRate": 11025,
+      "durationMs": 1260,
+      "sizeBytes": 13897,
+      "fileName": "vocalcom_0052.wav"
+    },
+    {
+      "id": 53,
+      "sampleRate": 11025,
+      "durationMs": 1165,
+      "sizeBytes": 12840,
+      "fileName": "vocalcom_0053.wav"
+    },
+    {
+      "id": 54,
+      "sampleRate": 11025,
+      "durationMs": 1275,
+      "sizeBytes": 14060,
+      "fileName": "vocalcom_0054.wav"
+    },
+    {
+      "id": 55,
+      "sampleRate": 11025,
+      "durationMs": 1171,
+      "sizeBytes": 12907,
+      "fileName": "vocalcom_0055.wav"
+    },
+    {
+      "id": 56,
+      "sampleRate": 11025,
+      "durationMs": 958,
+      "sizeBytes": 10559,
+      "fileName": "vocalcom_0056.wav"
+    },
+    {
+      "id": 57,
+      "sampleRate": 11025,
+      "durationMs": 854,
+      "sizeBytes": 9412,
+      "fileName": "vocalcom_0057.wav"
+    },
+    {
+      "id": 58,
+      "sampleRate": 11025,
+      "durationMs": 1063,
+      "sizeBytes": 11721,
+      "fileName": "vocalcom_0058.wav"
+    },
+    {
+      "id": 59,
+      "sampleRate": 11025,
+      "durationMs": 1103,
+      "sizeBytes": 12162,
+      "fileName": "vocalcom_0059.wav"
+    },
+    {
+      "id": 60,
+      "sampleRate": 11025,
+      "durationMs": 963,
+      "sizeBytes": 10619,
+      "fileName": "vocalcom_0060.wav"
+    },
+    {
+      "id": 61,
+      "sampleRate": 11025,
+      "durationMs": 1779,
+      "sizeBytes": 19608,
+      "fileName": "vocalcom_0061.wav"
+    },
+    {
+      "id": 62,
+      "sampleRate": 11025,
+      "durationMs": 639,
+      "sizeBytes": 7047,
+      "fileName": "vocalcom_0062.wav"
+    },
+    {
+      "id": 63,
+      "sampleRate": 11025,
+      "durationMs": 1824,
+      "sizeBytes": 20112,
+      "fileName": "vocalcom_0063.wav"
+    },
+    {
+      "id": 64,
+      "sampleRate": 11025,
+      "durationMs": 1347,
+      "sizeBytes": 14850,
+      "fileName": "vocalcom_0064.wav"
+    },
+    {
+      "id": 65,
+      "sampleRate": 11025,
+      "durationMs": 1315,
+      "sizeBytes": 14494,
+      "fileName": "vocalcom_0065.wav"
+    },
+    {
+      "id": 66,
+      "sampleRate": 11025,
+      "durationMs": 1649,
+      "sizeBytes": 18181,
+      "fileName": "vocalcom_0066.wav"
+    },
+    {
+      "id": 67,
+      "sampleRate": 11025,
+      "durationMs": 1170,
+      "sizeBytes": 12899,
+      "fileName": "vocalcom_0067.wav"
+    },
+    {
+      "id": 68,
+      "sampleRate": 11025,
+      "durationMs": 1611,
+      "sizeBytes": 17760,
+      "fileName": "vocalcom_0068.wav"
+    },
+    {
+      "id": 69,
+      "sampleRate": 11025,
+      "durationMs": 1456,
+      "sizeBytes": 16048,
+      "fileName": "vocalcom_0069.wav"
+    },
+    {
+      "id": 70,
+      "sampleRate": 11025,
+      "durationMs": 1741,
+      "sizeBytes": 19196,
+      "fileName": "vocalcom_0070.wav"
+    }
+  ]
+}

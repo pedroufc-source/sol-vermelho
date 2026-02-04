@@ -1,0 +1,213 @@
+{
+  "header": {
+    "versionCode": 331,
+    "styleNumber": 1,
+    "sampleNumber": 0,
+    "reserved": 0,
+    "routeSize": 2423,
+    "objectPosSize": 42210,
+    "columnSize": 117694,
+    "blockSize": 42544,
+    "navDataSize": 980
+  },
+  "stats": {
+    "totalBlocks": 5318,
+    "groundTypes": {
+      "air": 557,
+      "water": 11,
+      "road": 418,
+      "pavement": 355,
+      "field": 196,
+      "building": 3781,
+      "unused": 0
+    },
+    "slopedBlocks": 707,
+    "railwayBlocks": 126,
+    "trafficLightBlocks": 26,
+    "navigationZones": 21,
+    "objectPositions": 3015,
+    "vehiclePositions": 106,
+    "gameObjectPositions": 2909,
+    "routes": 8,
+    "totalWaypoints": 598,
+    "mapSize": "256x256",
+    "maxColumnHeight": 6,
+    "avgColumnHeight": "3.70"
+  },
+  "zones": [
+    {
+      "x": 155,
+      "y": 123,
+      "width": 14,
+      "height": 15,
+      "sample": 0,
+      "name": "Nixon Island"
+    },
+    {
+      "x": 204,
+      "y": 18,
+      "width": 7,
+      "height": 49,
+      "sample": 10,
+      "name": "Island View"
+    },
+    {
+      "x": 203,
+      "y": 70,
+      "width": 36,
+      "height": 23,
+      "sample": 11,
+      "name": "Law Island"
+    },
+    {
+      "x": 93,
+      "y": 212,
+      "width": 26,
+      "height": 43,
+      "sample": 16,
+      "name": "Tellberg"
+    },
+    {
+      "x": 171,
+      "y": 4,
+      "width": 30,
+      "height": 38,
+      "sample": 8,
+      "name": "Nolaw"
+    },
+    {
+      "x": 42,
+      "y": 232,
+      "width": 51,
+      "height": 23,
+      "sample": 17,
+      "name": "Brocklyn Docks"
+    },
+    {
+      "x": 51,
+      "y": 87,
+      "width": 24,
+      "height": 53,
+      "sample": 6,
+      "name": "Schelchberg"
+    },
+    {
+      "x": 127,
+      "y": 1,
+      "width": 42,
+      "height": 35,
+      "sample": 3,
+      "name": "Eaglewood"
+    },
+    {
+      "x": 119,
+      "y": 158,
+      "width": 46,
+      "height": 40,
+      "sample": 14,
+      "name": "Ardler"
+    },
+    {
+      "x": 1,
+      "y": 153,
+      "width": 24,
+      "height": 83,
+      "sample": 7,
+      "name": "New Guernsey"
+    },
+    {
+      "x": 132,
+      "y": 48,
+      "width": 68,
+      "height": 33,
+      "sample": 19,
+      "name": "Island Heights"
+    },
+    {
+      "x": 119,
+      "y": 198,
+      "width": 46,
+      "height": 57,
+      "sample": 15,
+      "name": "Brocklyn"
+    },
+    {
+      "x": 51,
+      "y": 49,
+      "width": 72,
+      "height": 38,
+      "sample": 5,
+      "name": "Fort Law"
+    },
+    {
+      "x": 211,
+      "y": 1,
+      "width": 43,
+      "height": 68,
+      "sample": 9,
+      "name": "Brix"
+    },
+    {
+      "x": 97,
+      "y": 84,
+      "width": 72,
+      "height": 53,
+      "sample": 20,
+      "name": "Park"
+    },
+    {
+      "x": 176,
+      "y": 103,
+      "width": 78,
+      "height": 51,
+      "sample": 12,
+      "name": "Estoria"
+    },
+    {
+      "x": 34,
+      "y": 153,
+      "width": 75,
+      "height": 59,
+      "sample": 18,
+      "name": "Island City"
+    },
+    {
+      "x": 1,
+      "y": 49,
+      "width": 50,
+      "height": 104,
+      "sample": 4,
+      "name": "Guernsey City"
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "width": 126,
+      "height": 47,
+      "sample": 2,
+      "name": "Hackenslash"
+    },
+    {
+      "x": 165,
+      "y": 154,
+      "width": 89,
+      "height": 101,
+      "sample": 13,
+      "name": "Kings"
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "width": 253,
+      "height": 255,
+      "sample": 1,
+      "name": "Liberty City"
+    }
+  ],
+  "gridInfo": {
+    "width": 256,
+    "height": 256,
+    "totalColumns": 65536,
+    "note": "Full grid data saved separately"
+  }
+}

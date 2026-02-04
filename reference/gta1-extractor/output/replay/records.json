@@ -1,0 +1,322 @@
+[
+  {
+    "frame": 46,
+    "input": 98306,
+    "inputHex": "0x00018002",
+    "decoded": [
+      "DOWN",
+      "HIGH:0x1"
+    ]
+  },
+  {
+    "frame": 55,
+    "input": 2,
+    "inputHex": "0x00000002",
+    "decoded": [
+      "DOWN"
+    ]
+  },
+  {
+    "frame": 62,
+    "input": 360710208,
+    "inputHex": "0x15800040",
+    "decoded": [
+      "JUMP",
+      "HIGH:0x1580"
+    ]
+  },
+  {
+    "frame": 63,
+    "input": 1438646336,
+    "inputHex": "0x55c00040",
+    "decoded": [
+      "JUMP",
+      "HIGH:0x55c0"
+    ]
+  },
+  {
+    "frame": 84,
+    "input": 98306,
+    "inputHex": "0x00018002",
+    "decoded": [
+      "DOWN",
+      "HIGH:0x1"
+    ]
+  },
+  {
+    "frame": 125,
+    "input": 4609,
+    "inputHex": "0x00001201",
+    "decoded": [
+      "UP",
+      "CAM_R"
+    ]
+  },
+  {
+    "frame": 131,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 133,
+    "input": 3585,
+    "inputHex": "0x00000e01",
+    "decoded": [
+      "UP",
+      "CAM_R",
+      "BRAKE",
+      "HANDBRAKE"
+    ]
+  },
+  {
+    "frame": 164,
+    "input": 2,
+    "inputHex": "0x00000002",
+    "decoded": [
+      "DOWN"
+    ]
+  },
+  {
+    "frame": 166,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 167,
+    "input": 102915,
+    "inputHex": "0x00019203",
+    "decoded": [
+      "UP",
+      "DOWN",
+      "CAM_R",
+      "HIGH:0x1"
+    ]
+  },
+  {
+    "frame": 174,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 183,
+    "input": 4609,
+    "inputHex": "0x00001201",
+    "decoded": [
+      "UP",
+      "CAM_R"
+    ]
+  },
+  {
+    "frame": 186,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 201,
+    "input": 4609,
+    "inputHex": "0x00001201",
+    "decoded": [
+      "UP",
+      "CAM_R"
+    ]
+  },
+  {
+    "frame": 208,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 241,
+    "input": 4609,
+    "inputHex": "0x00001201",
+    "decoded": [
+      "UP",
+      "CAM_R"
+    ]
+  },
+  {
+    "frame": 244,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 259,
+    "input": 4609,
+    "inputHex": "0x00001201",
+    "decoded": [
+      "UP",
+      "CAM_R"
+    ]
+  },
+  {
+    "frame": 263,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 272,
+    "input": 3585,
+    "inputHex": "0x00000e01",
+    "decoded": [
+      "UP",
+      "CAM_R",
+      "BRAKE",
+      "HANDBRAKE"
+    ]
+  },
+  {
+    "frame": 278,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 286,
+    "input": 4609,
+    "inputHex": "0x00001201",
+    "decoded": [
+      "UP",
+      "CAM_R"
+    ]
+  },
+  {
+    "frame": 301,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 320,
+    "input": 3585,
+    "inputHex": "0x00000e01",
+    "decoded": [
+      "UP",
+      "CAM_R",
+      "BRAKE",
+      "HANDBRAKE"
+    ]
+  },
+  {
+    "frame": 327,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 340,
+    "input": 3585,
+    "inputHex": "0x00000e01",
+    "decoded": [
+      "UP",
+      "CAM_R",
+      "BRAKE",
+      "HANDBRAKE"
+    ]
+  },
+  {
+    "frame": 344,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 348,
+    "input": 4609,
+    "inputHex": "0x00001201",
+    "decoded": [
+      "UP",
+      "CAM_R"
+    ]
+  },
+  {
+    "frame": 360,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 374,
+    "input": 3585,
+    "inputHex": "0x00000e01",
+    "decoded": [
+      "UP",
+      "CAM_R",
+      "BRAKE",
+      "HANDBRAKE"
+    ]
+  },
+  {
+    "frame": 379,
+    "input": 1,
+    "inputHex": "0x00000001",
+    "decoded": [
+      "UP"
+    ]
+  },
+  {
+    "frame": 391,
+    "input": 2,
+    "inputHex": "0x00000002",
+    "decoded": [
+      "DOWN"
+    ]
+  },
+  {
+    "frame": 399,
+    "input": 8388672,
+    "inputHex": "0x00800040",
+    "decoded": [
+      "JUMP",
+      "HIGH:0x80"
+    ]
+  },
+  {
+    "frame": 402,
+    "input": 1082130496,
+    "inputHex": "0x40800040",
+    "decoded": [
+      "JUMP",
+      "HIGH:0x4080"
+    ]
+  },
+  {
+    "frame": 404,
+    "input": 234881088,
+    "inputHex": "0x0e000040",
+    "decoded": [
+      "JUMP",
+      "HIGH:0xe00"
+    ]
+  }
+]

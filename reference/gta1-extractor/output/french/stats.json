@@ -1,0 +1,23 @@
+{
+  "totalStrings": 1300,
+  "byIdRange": {
+    "0-999": 142,
+    "2000-2999": 296,
+    "3000-3999": 389,
+    "4000-4999": 466,
+    "5000-5999": 5,
+    "9000-9999": 1,
+    "751000-751999": 1
+  },
+  "totalCharacters": 114579,
+  "longestString": {
+    "id": "2641",
+    "length": 2951,
+    "preview": "GO!elp1]Entre dans un wagon comme dans une voiture. Attention Ä¡ la marche et aux fils Äªlectriques."
+  },
+  "shortestString": {
+    "id": "3626",
+    "length": 3,
+    "text": "GO!"
+  }
+}

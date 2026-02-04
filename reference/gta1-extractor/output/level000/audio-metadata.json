@@ -1,0 +1,134 @@
+{
+  "source": "level000",
+  "stats": {
+    "totalSounds": 16,
+    "totalBytes": 1044524,
+    "totalDurationMs": 34412,
+    "totalDurationFormatted": "0m 34s",
+    "averageDurationMs": 2151,
+    "shortestMs": 435,
+    "longestMs": 5631,
+    "sampleRates": {
+      "22050": 3,
+      "24000": 1,
+      "30000": 5,
+      "32000": 3,
+      "38000": 2,
+      "44100": 2
+    }
+  },
+  "sounds": [
+    {
+      "id": 0,
+      "sampleRate": 32000,
+      "durationMs": 5317,
+      "sizeBytes": 170152,
+      "fileName": "level000_0000.wav"
+    },
+    {
+      "id": 1,
+      "sampleRate": 32000,
+      "durationMs": 5317,
+      "sizeBytes": 170152,
+      "fileName": "level000_0001.wav"
+    },
+    {
+      "id": 2,
+      "sampleRate": 24000,
+      "durationMs": 5631,
+      "sizeBytes": 135136,
+      "fileName": "level000_0002.wav"
+    },
+    {
+      "id": 3,
+      "sampleRate": 44100,
+      "durationMs": 554,
+      "sizeBytes": 24448,
+      "fileName": "level000_0003.wav"
+    },
+    {
+      "id": 4,
+      "sampleRate": 22050,
+      "durationMs": 1646,
+      "sizeBytes": 36300,
+      "fileName": "level000_0004.wav"
+    },
+    {
+      "id": 5,
+      "sampleRate": 30000,
+      "durationMs": 1589,
+      "sizeBytes": 47664,
+      "fileName": "level000_0005.wav"
+    },
+    {
+      "id": 6,
+      "sampleRate": 30000,
+      "durationMs": 3919,
+      "sizeBytes": 117582,
+      "fileName": "level000_0006.wav"
+    },
+    {
+      "id": 7,
+      "sampleRate": 38000,
+      "durationMs": 1572,
+      "sizeBytes": 59720,
+      "fileName": "level000_0007.wav"
+    },
+    {
+      "id": 8,
+      "sampleRate": 38000,
+      "durationMs": 1637,
+      "sizeBytes": 62222,
+      "fileName": "level000_0008.wav"
+    },
+    {
+      "id": 9,
+      "sampleRate": 30000,
+      "durationMs": 1229,
+      "sizeBytes": 36870,
+      "fileName": "level000_0009.wav"
+    },
+    {
+      "id": 10,
+      "sampleRate": 30000,
+      "durationMs": 1358,
+      "sizeBytes": 40746,
+      "fileName": "level000_0010.wav"
+    },
+    {
+      "id": 11,
+      "sampleRate": 30000,
+      "durationMs": 1939,
+      "sizeBytes": 58178,
+      "fileName": "level000_0011.wav"
+    },
+    {
+      "id": 12,
+      "sampleRate": 22050,
+      "durationMs": 435,
+      "sizeBytes": 9598,
+      "fileName": "level000_0012.wav"
+    },
+    {
+      "id": 13,
+      "sampleRate": 22050,
+      "durationMs": 529,
+      "sizeBytes": 11666,
+      "fileName": "level000_0013.wav"
+    },
+    {
+      "id": 14,
+      "sampleRate": 32000,
+      "durationMs": 1046,
+      "sizeBytes": 33482,
+      "fileName": "level000_0014.wav"
+    },
+    {
+      "id": 15,
+      "sampleRate": 44100,
+      "durationMs": 694,
+      "sizeBytes": 30608,
+      "fileName": "level000_0015.wav"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "source": "1",
+  "stats": {
+    "totalRecords": 253,
+    "totalFrames": 1498,
+    "firstFrame": 1,
+    "lastFrame": 1499,
+    "uniqueInputs": 22,
+    "durationEstimate": "50.0s @ 30fps",
+    "mostCommonInputs": [
+      {
+        "hex": "0x00000001",
+        "count": 96
+      },
+      {
+        "hex": "0x00001201",
+        "count": 58
+      },
+      {
+        "hex": "0x00000e01",
+        "count": 49
+      },
+      {
+        "hex": "0x00000004",
+        "count": 9
+      },
+      {
+        "hex": "0x00018002",
+        "count": 8
+      },
+      {
+        "hex": "0x00100004",
+        "count": 7
+      },
+      {
+        "hex": "0x00000002",
+        "count": 5
+      },
+      {
+        "hex": "0x00100006",
+        "count": 4
+      },
+      {
+        "hex": "0x00006080",
+        "count": 2
+      },
+      {
+        "hex": "0x00018003",
+        "count": 2
+      }
+    ]
+  },
+  "movement": {
+    "directions": {
+      "UP": 212,
+      "DOWN": 21,
+      "LEFT": 26,
+      "RIGHT": 0
+    },
+    "actions": {
+      "FIRE": 0,
+      "ENTER": 0,
+      "JUMP": 3,
+      "BRAKE": 50
+    }
+  }
+}

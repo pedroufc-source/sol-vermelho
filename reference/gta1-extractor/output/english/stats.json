@@ -1,0 +1,23 @@
+{
+  "totalStrings": 1301,
+  "byIdRange": {
+    "0-999": 142,
+    "2000-2999": 296,
+    "3000-3999": 389,
+    "4000-4999": 466,
+    "5000-5999": 6,
+    "9000-9999": 1,
+    "751000-751999": 1
+  },
+  "totalCharacters": 113612,
+  "longestString": {
+    "id": "114",
+    "length": 3079,
+    "preview": "area011]Vice Citypxnotinstalled]IPX Not Installedartnotresponding]UART Not Responding On COM%darning"
+  },
+  "shortestString": {
+    "id": "3626",
+    "length": 3,
+    "text": "GO!"
+  }
+}

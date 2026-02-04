@@ -1,0 +1,90 @@
+{
+  "source": "misbrief",
+  "stats": {
+    "totalSounds": 10,
+    "totalBytes": 142308,
+    "totalDurationMs": 8868,
+    "totalDurationFormatted": "0m 8s",
+    "averageDurationMs": 887,
+    "shortestMs": 478,
+    "longestMs": 1519,
+    "sampleRates": {
+      "11025": 3,
+      "16000": 3,
+      "22050": 3,
+      "30000": 1
+    }
+  },
+  "sounds": [
+    {
+      "id": 0,
+      "sampleRate": 11025,
+      "durationMs": 1519,
+      "sizeBytes": 16749,
+      "fileName": "misbrief_0000.wav"
+    },
+    {
+      "id": 1,
+      "sampleRate": 11025,
+      "durationMs": 956,
+      "sizeBytes": 10540,
+      "fileName": "misbrief_0001.wav"
+    },
+    {
+      "id": 2,
+      "sampleRate": 11025,
+      "durationMs": 1321,
+      "sizeBytes": 14564,
+      "fileName": "misbrief_0002.wav"
+    },
+    {
+      "id": 3,
+      "sampleRate": 16000,
+      "durationMs": 1047,
+      "sizeBytes": 16749,
+      "fileName": "misbrief_0003.wav"
+    },
+    {
+      "id": 4,
+      "sampleRate": 16000,
+      "durationMs": 659,
+      "sizeBytes": 10540,
+      "fileName": "misbrief_0004.wav"
+    },
+    {
+      "id": 5,
+      "sampleRate": 16000,
+      "durationMs": 910,
+      "sizeBytes": 14564,
+      "fileName": "misbrief_0005.wav"
+    },
+    {
+      "id": 6,
+      "sampleRate": 22050,
+      "durationMs": 760,
+      "sizeBytes": 16749,
+      "fileName": "misbrief_0006.wav"
+    },
+    {
+      "id": 7,
+      "sampleRate": 22050,
+      "durationMs": 478,
+      "sizeBytes": 10540,
+      "fileName": "misbrief_0007.wav"
+    },
+    {
+      "id": 8,
+      "sampleRate": 22050,
+      "durationMs": 660,
+      "sizeBytes": 14564,
+      "fileName": "misbrief_0008.wav"
+    },
+    {
+      "id": 9,
+      "sampleRate": 30000,
+      "durationMs": 558,
+      "sizeBytes": 16749,
+      "fileName": "misbrief_0009.wav"
+    }
+  ]
+}

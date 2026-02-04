@@ -1,0 +1,189 @@
+{
+  "totalMissions": 18,
+  "totalObjects": 8525,
+  "totalActions": 30644,
+  "objectTypes": {
+    "TELEPHONE": 1203,
+    "DUMMY": 397,
+    "TRIGGER": 1990,
+    "TARGET": 171,
+    "COUNTER": 169,
+    "FUTURE": 85,
+    "FUTUREPED": 424,
+    "DOOR": 171,
+    "FUTURECAR": 227,
+    "MISSION_COUNTER": 8,
+    "SPRAY": 110,
+    "BOMBSHOP": 56,
+    "MPHONES": 12,
+    "PARKED": 122,
+    "CARTRIGGER": 71,
+    "OBJECT": 1,
+    "PHONE_TOGG": 12,
+    "GTA_DEMAND": 6,
+    "DUM_MISSION_TRIG": 68,
+    "HELLS": 7,
+    "GUN_TRIG": 20,
+    "POWERUP": 2501,
+    "CRANE": 24,
+    "PLAYER": 54,
+    "SECRET_MISSION_COUNTER": 6,
+    "MISSION_TOTAL": 7,
+    "TARGET_SCORE": 6,
+    "BARRIER": 24,
+    "BOMBSHOP_COST": 1,
+    "BLOCK_INFO": 253,
+    "SPECIFIC_DOOR": 19,
+    "MOVING_TRIG_HIRED": 14,
+    "CORRECT_CAR_TRIG": 55,
+    "ALT_DAMAGE_TRIG": 1,
+    "GUN_SCREEN_TRIG": 23,
+    "MODEL_BARRIER": 2,
+    "SPECIFIC_BARR": 2,
+    "CARDESTROY_TRIG": 23,
+    "CARWAIT_TRIG": 22,
+    "PEDCAR_TRIG": 2,
+    "CARBOMB_TRIG": 9,
+    "CORRECT_MOD_TRIG": 2,
+    "PED": 39,
+    "DUM_PED_BLOCK_TRIG": 3,
+    "DAMAGE_TRIG": 2,
+    "MOVING_TRIG": 8,
+    "BASIC_BARRIER": 4,
+    "PARKED_PIXELS": 4,
+    "CHOPPER_ENDPOINT": 2,
+    "CARSTUCK_TRIG": 5,
+    "MIDPOINT_MULTI": 51,
+    "FINAL_MULTI": 9,
+    "MID_MULTI_SETUP": 9,
+    "CANNON_START": 9
+  },
+  "missionList": [
+    {
+      "id": 1,
+      "name": "Easy Liberty City NEW",
+      "mapFile": "NYC.CMP",
+      "objects": 575,
+      "actions": 2116
+    },
+    {
+      "id": 2,
+      "name": "Medium Liberty City new",
+      "mapFile": "NYC.CMP",
+      "objects": 676,
+      "actions": 2765
+    },
+    {
+      "id": 102,
+      "name": "San Andreas medium",
+      "mapFile": "SANB.CMP",
+      "objects": 668,
+      "actions": 3121
+    },
+    {
+      "id": 103,
+      "name": "San Andreas hard",
+      "mapFile": "SANB.CMP",
+      "objects": 767,
+      "actions": 2911
+    },
+    {
+      "id": 202,
+      "name": "Vice is Painless",
+      "mapFile": "MIAMI.CMP",
+      "objects": 1006,
+      "actions": 4354
+    },
+    {
+      "id": 203,
+      "name": "Vice is Painless",
+      "mapFile": "MIAMI.CMP",
+      "objects": 876,
+      "actions": 4863
+    },
+    {
+      "id": 1001,
+      "name": "DEATHMATCH1",
+      "mapFile": "NYC.CMP",
+      "objects": 364,
+      "actions": 595
+    },
+    {
+      "id": 1002,
+      "name": "Canonball Run1",
+      "mapFile": "NYC.CMP",
+      "objects": 383,
+      "actions": 629
+    },
+    {
+      "id": 1003,
+      "name": "Canonball Run2",
+      "mapFile": "NYC.CMP",
+      "objects": 391,
+      "actions": 643
+    },
+    {
+      "id": 1004,
+      "name": "Canonball Run3",
+      "mapFile": "NYC.CMP",
+      "objects": 423,
+      "actions": 699
+    },
+    {
+      "id": 1101,
+      "name": "DEATHMATCH1",
+      "mapFile": "SANB.CMP",
+      "objects": 283,
+      "actions": 962
+    },
+    {
+      "id": 1102,
+      "name": "Canonball Run1",
+      "mapFile": "SANB.CMP",
+      "objects": 296,
+      "actions": 983
+    },
+    {
+      "id": 1103,
+      "name": "Canonball Run2",
+      "mapFile": "SANB.CMP",
+      "objects": 305,
+      "actions": 1004
+    },
+    {
+      "id": 1104,
+      "name": "Canonball Run3",
+      "mapFile": "SANB.CMP",
+      "objects": 314,
+      "actions": 1025
+    },
+    {
+      "id": 1201,
+      "name": "DEATHMATCH1",
+      "mapFile": "MIAMI.CMP",
+      "objects": 283,
+      "actions": 962
+    },
+    {
+      "id": 1202,
+      "name": "Canonball Run1",
+      "mapFile": "MIAMI.CMP",
+      "objects": 296,
+      "actions": 983
+    },
+    {
+      "id": 1203,
+      "name": "Canonball Run2",
+      "mapFile": "MIAMI.CMP",
+      "objects": 305,
+      "actions": 1004
+    },
+    {
+      "id": 1204,
+      "name": "Canonball Run3",
+      "mapFile": "MIAMI.CMP",
+      "objects": 314,
+      "actions": 1025
+    }
+  ]
+}

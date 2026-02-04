@@ -93,7 +93,19 @@ logs/
 # ===== Archive (versões antigas) =====
 _archive/
 
-# ===== Legado (remover depois de migrar) =====
+# ===== GTA 1 Assets (proprietary - DO NOT COMMIT) =====
+# Extracted from original GTA 1 installer - for reference only
+assets/gta1/
+gta1_extracted/
+
+# Legacy paths
 gta1_assets/gta1_extracted/
 gta1_assets/gta1.zip
 gta1_assets/WebGL-GTA/
+
+# Sol Vermelho WebGL dev files
+sol_vermelho_webgl/
+sol_vermelho_web/gta1_assets/
+
+# GTA 1 Extractor output (generated files)
+tools/gta1-extractor/output/
