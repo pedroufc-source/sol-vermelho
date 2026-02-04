@@ -5,6 +5,33 @@ Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/),
 e este projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [v6] - Em Desenvolvimento (Fev 2025)
+
+**Foco atual: Colisão e Mapa OSM de Fortaleza**
+
+### Adicionado
+- Integração com dados **OpenStreetMap** de Fortaleza
+- Sistema de colisão baseado em geometria real da cidade
+- Nova arquitetura modular em `sv/`
+- Extração completa de sprites do GTA1 (`gta1_assets/`)
+- Pasta `reference/` com código do WebGL-GTA original
+
+### Mudado
+- Entry point movido para `index.html`
+- Estrutura simplificada para prototipagem rápida
+
+### Histórico de Tentativas (v1-v5)
+
+| Versão | Abordagem | Por que mudamos |
+|--------|-----------|-----------------|
+| v5 | WebGL + sprites GTA1 | Escalas inconsistentes |
+| v4 | WebGL inicial | Complexidade de integração |
+| v3 | HTML com src/ modular | Canvas 2D limitado |
+| v2 | Canvas 2D puro | Código monolítico |
+| v1 | Godot 4.2 | Export web pesado (~50MB) |
+
+---
+
 ## [Unreleased]
 
 ### Adicionado

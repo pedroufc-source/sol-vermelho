@@ -97,90 +97,76 @@ refactor/[nome]-[area]      → Refatoração
 
 ---
 
-## ESTRUTURA DO PROJETO (Profissional)
+## ESTRUTURA DO PROJETO (v6 - Atual)
 
 ```
 sol-vermelho/
+│
+├── index.html                  # ENTRY POINT PRINCIPAL (v6)
+│
+├── sv/                         # NOVA VERSÃO MODULAR
+│   ├── index.html              # Versão standalone
+│   ├── core.js                 # Engine principal
+│   ├── player.js               # Sistema do jogador
+│   ├── fortaleza-map.js        # Mapa OSM de Fortaleza
+│   └── data/                   # Dados do jogo
+│
+├── assets/                     # ASSETS
+│   ├── sprites_gta.png         # Spritesheet do GTA1
+│   ├── tiles_gta.png           # Tiles do GTA1
+│   └── sprite_data.json        # Metadados dos sprites
+│
+├── gta1_assets/                # ASSETS EXTRAÍDOS DO GTA1
+│   ├── extracted_nyc/          # Sprites de NYC
+│   └── extract_sprites.js      # Script de extração
+│
+├── reference/                  # CÓDIGO DE REFERÊNCIA
+│   └── WebGL-GTA-niklasvh/     # Engine base (não editar)
 │
 ├── docs/                       # DOCUMENTAÇÃO
 │   ├── gdd/                    # Game Design Document
 │   │   ├── ROTEIRO.md          # História e missões
 │   │   └── BRIEFING.txt        # Notas do projeto
 │   ├── research/               # Pesquisa
-│   │   └── FACCOES_FORTALEZA.md
 │   └── technical/              # Docs técnicos
 │
-├── src/                        # CÓDIGO FONTE
-│   ├── core/                   # Engine
-│   │   ├── Game.js             # Estado global e loop
-│   │   └── Init.js             # Inicialização e eventos
-│   │
-│   ├── entities/               # Objetos do jogo
-│   │   ├── Player.js           # Jogador (Raio)
-│   │   ├── Vehicle.js          # Carros
-│   │   ├── Ped.js              # Pedestres, Cops, Targets
-│   │   └── Projectile.js       # Balas e pickups
-│   │
-│   ├── systems/                # Sistemas de gameplay
-│   │   ├── MissionSystem.js    # Missões
-│   │   ├── WantedSystem.js     # Polícia
-│   │   ├── ParticleSystem.js   # Efeitos visuais
-│   │   ├── AudioSystem.js      # Som
-│   │   └── SaveSystem.js       # Salvar/carregar
-│   │
-│   ├── ui/                     # Interface
-│   │   ├── HUD.js              # Barras, score, etc
-│   │   ├── Map.js              # Mapa de Fortaleza
-│   │   └── styles.css          # Estilos
-│   │
-│   └── data/                   # Dados do jogo
-│       ├── config.js           # Constantes globais
-│       ├── zones.js            # Zonas de Fortaleza
-│       └── missions/           # Missões por capítulo
-│           ├── chapter1.json
-│           └── chapter2.json
+├── _archive/                   # VERSÕES ANTERIORES
+│   ├── v1_godot/               # Godot 4.2 (pausado)
+│   ├── v2_canvas_2d/           # Canvas 2D puro
+│   ├── v3_game_html_src/       # HTML com src/ modular
+│   ├── v4_webgl/               # Primeira tentativa WebGL
+│   ├── v5_sol_vermelho_webgl/  # WebGL com sprites GTA1
+│   └── v6_colisao_osm/         # Backup da v6
 │
-├── assets/                     # ASSETS
-│   ├── sprites/                # Imagens
-│   ├── audio/                  # Sons
-│   └── maps/                   # Mapas
-│
-├── vendor/                     # LIBS EXTERNAS (não editar)
-│   ├── Three.js
-│   ├── Box2dWeb-2.1.a.3.js
-│   └── Stats.js
-│
-├── _archive/                   # VERSÕES ANTIGAS (ignorado pelo git)
-│   ├── sol_vermelho/           # Godot pausado
-│   ├── sol_vermelho_web/       # Canvas 2D
-│   ├── sol_vermelho_webgl/     # Tentativa WebGL
-│   └── sol-vermelho-(4.2)/     # Godot legado
-│
-├── game.html                   # JOGO (entry point)
-├── index.html                  # Página inicial
 ├── CLAUDE.md                   # Este arquivo
+├── CHANGELOG.md                # Histórico de versões
 └── README.md
 ```
 
-## Arquivos Principais
+## Arquivos Principais (v6)
 
-### Para adicionar MISSÕES (Pedro):
+### Entry Point:
 ```
-src/data/missions/chapter1.json   # Missões do Cap 1
-src/data/missions/chapter2.json   # Missões do Cap 2
-```
-
-### Para ajustar GAMEPLAY (Pedro):
-```
-src/data/config.js                # Velocidade, dano, etc
-src/data/zones.js                 # Territórios das facções
+index.html                        # Arquivo principal do jogo
 ```
 
 ### Para mexer na ENGINE (Saulo):
 ```
-src/core/Game.js                  # Loop principal
-src/entities/                     # Classes do jogo
-src/systems/                      # Sistemas
+sv/core.js                        # Engine principal
+sv/player.js                      # Sistema do jogador
+sv/fortaleza-map.js               # Mapa OSM
+```
+
+### Assets:
+```
+assets/sprites_gta.png            # Spritesheet
+assets/tiles_gta.png              # Tiles do mapa
+gta1_assets/                      # Sprites extraídos
+```
+
+### Referência (não editar):
+```
+reference/WebGL-GTA-niklasvh/     # Código base original
 ```
 
 ---
@@ -192,19 +178,24 @@ Criar versão jogável para usar como convite de recrutamento de equipe.
 
 ### Critério de Sucesso (Mínimo)
 
-- [ ] Player andando no mapa de Fortaleza
-- [ ] Entrar em carro e dirigir
+- [x] Player andando no mapa
+- [x] Veículos funcionando
+- [x] NPCs e colisão (atropelar)
+- [ ] Mapa de Fortaleza com dados OSM
 - [ ] 1 missão funcionando
 
-## Decisão Técnica
+## Decisão Técnica (v6)
 
-Usar **WebGL** baseado no projeto [WebGL-GTA](https://github.com/niklasvh/WebGL-GTA) como engine base.
+Usar **WebGL** baseado no projeto [WebGL-GTA](https://github.com/niklasvh/WebGL-GTA) + dados **OpenStreetMap** de Fortaleza.
 
-### Por quê?
-- Física já calibrada (Box2D)
-- Escalas corretas
-- Parser de assets do GTA1 funcionando
-- Rendering 3D com Three.js
+### Abordagem Atual
+- Geometria real da cidade via OSM
+- Sprites e tiles extraídos do GTA1
+- Física simplificada (sem Box2D por enquanto)
+- Prototipagem rápida em single-file
+
+### Histórico de Tentativas
+Passamos por 6 versões diferentes (v1-v6). Veja `_archive/` e `CHANGELOG.md` para detalhes.
 
 ---
 

@@ -7,6 +7,8 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
 
+> **🚧 Versão Atual: v6** - Trabalhando em colisão e integração com mapa OSM de Fortaleza
+
 ---
 
 ## Sobre
@@ -33,7 +35,7 @@ cd sol-vermelho
 python3 -m http.server 8000
 
 # Acesse no navegador
-# http://localhost:8000/game.html
+# http://localhost:8000/index.html
 ```
 
 ### Controles
@@ -55,20 +57,32 @@ python3 -m http.server 8000
 
 ```
 sol-vermelho/
-├── src/                    # Código fonte modular
-│   ├── core/               # Engine (Game.js, Init.js)
-│   ├── entities/           # Player, Vehicle, Ped
-│   ├── systems/            # Mission, Wanted, Audio, Save
-│   ├── ui/                 # HUD, Map, styles.css
-│   └── data/               # Config, zones, missions/
-├── assets/                 # Sprites, áudio, mapas
+├── index.html              # Entry point principal (v6)
+├── sv/                     # Nova versão modular
+│   ├── core.js             # Engine principal
+│   ├── player.js           # Sistema do jogador
+│   ├── fortaleza-map.js    # Mapa OSM de Fortaleza
+│   └── data/               # Dados do jogo
+├── assets/                 # Sprites e tiles do GTA1
+├── gta1_assets/            # Assets extraídos do GTA1
+├── reference/              # Código de referência (WebGL-GTA)
 ├── docs/                   # Documentação
 │   ├── gdd/                # Game Design Document
 │   └── research/           # Pesquisa de referência
-├── vendor/                 # Libs externas (Three.js, Box2D)
-├── game.html               # Entry point do jogo
+├── _archive/               # Versões anteriores (v1-v5)
 └── CLAUDE.md               # Contexto para IA
 ```
+
+## Histórico de Versões
+
+| Versão | Descrição | Status |
+|--------|-----------|--------|
+| **v6** | Colisão + Mapa OSM de Fortaleza | 🚧 Em desenvolvimento |
+| v5 | WebGL com sprites GTA1 | Arquivado |
+| v4 | Primeira tentativa WebGL | Arquivado |
+| v3 | HTML estruturado com src/ | Arquivado |
+| v2 | Canvas 2D puro | Arquivado |
+| v1 | Godot 4.2 | Pausado |
 
 ---
 
