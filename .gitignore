@@ -1,64 +1,23 @@
 # ===== macOS =====
 .DS_Store
-.AppleDouble
-.LSOverride
 ._*
-
-# ===== Windows =====
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# ===== Linux =====
-*~
 
 # ===== IDEs =====
 .idea/
 .vscode/
 *.swp
 *.swo
-*.sublime-project
-*.sublime-workspace
 
-# ===== Godot =====
-# Godot 4+ specific ignores
-.godot/
-
-# Godot-specific ignores (legacy)
-.import/
-export.cfg
-export_presets.cfg
-
-# Imported textures, meshes, etc.
-*.translation
-
-# Mono-specific ignores
-.mono/
-data_*/
-mono_crash.*.json
-
-# ===== Exports =====
-# Exported game builds
-*.exe
-*.x86_64
-*.x86
-*.apk
-*.aab
-*.pck
-*.zip
-*.dmg
-*.app
-
-# Export templates (optional, uncomment if needed)
-# android/
-# ios/
-
-# ===== Web =====
+# ===== Node =====
 node_modules/
 package-lock.json
-yarn.lock
 
-# ===== Build outputs =====
+# ===== Python =====
+.venv/
+__pycache__/
+*.pyc
+
+# ===== Build =====
 dist/
 build/
 out/
@@ -70,42 +29,29 @@ out/
 
 # ===== Logs =====
 *.log
-logs/
 
-# ===== Temporary files =====
+# ===== Temp =====
 *.tmp
-*.temp
 *.bak
-*.backup
 
-# ===== OS generated files =====
-*.pid
-*.seed
-*.pid.lock
+# ======================================
+# ARQUIVOS PESADOS - NÃO RASTREAR NO GIT
+# ======================================
 
-# ===== Large files / External assets =====
-*.zip
-*.cab
-*.wav
-*.mp3
-*.ogg
-
-# ===== Archive (versões antigas) =====
+# Versões antigas arquivadas (2.1 GB)
 _archive/
 
-# ===== GTA 1 Assets (proprietary - DO NOT COMMIT) =====
-# Extracted from original GTA 1 installer - for reference only
-assets/gta1/
-gta1_extracted/
+# Assets extraídos do GTA1 (1 GB) - proprietários
+gta1_assets/
 
-# Legacy paths
-gta1_assets/gta1_extracted/
-gta1_assets/gta1.zip
-gta1_assets/WebGL-GTA/
+# Código de referência externo (67 MB)
+reference/
 
-# Sol Vermelho WebGL dev files
-sol_vermelho_webgl/
-sol_vermelho_web/gta1_assets/
+# Pipeline v7 - dados gerados/cache
+v7/
 
-# GTA 1 Extractor output (generated files)
-tools/gta1-extractor/output/
+# Assets gerados por ferramentas
+assets/generated/
+
+# Ferramentas auxiliares (podem ser recriadas)
+tools/
