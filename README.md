@@ -82,7 +82,9 @@ Este projeto passou por varias iteracoes. A decisao tecnica final (engine, arqui
 
 ## Referencia GTA1 Original
 
-O projeto tem localmente os dados extraidos do GTA1 original (1997) para estudo e referencia. **Esses arquivos nao vao pro git** (sao pesados e proprietarios).
+O projeto tem dados extraidos do GTA1 original (1997) para estudo e referencia. **Esses arquivos nao vao pro git** (sao pesados e proprietarios).
+
+**[Acessar no Google Drive](https://drive.google.com/drive/folders/1k-B-Z1ja94DPcVvdPTwxeBFRIWlT3dAr?usp=sharing)** — pasta compartilhada com todos os assets, versoes anteriores e ferramentas.
 
 ### Assets extraidos (`gta1_assets/`, ~650 MB)
 Installer do GTA1 original extraido com os binarios do jogo:
@@ -142,7 +144,7 @@ CHANGELOG.md            <- Historico de mudancas
 LICENSE                 <- MIT
 ```
 
-### Local (nao vai pro git — pesado/proprietario)
+### Local (nao vai pro git — [disponivel no Google Drive](https://drive.google.com/drive/folders/1k-B-Z1ja94DPcVvdPTwxeBFRIWlT3dAr?usp=sharing))
 ```
 _archive/               <- Versoes anteriores v1-v6 (2.1 GB)
 gta1_assets/            <- GTA1 original extraido (650 MB)
