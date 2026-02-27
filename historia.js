@@ -7,7 +7,7 @@
 const INTRO_PAGES = [
     {
         text: `<div style="color:#f33; font-size:16px; margin-bottom:15px;">FORTALEZA, CEARÁ</div>
-        <div style="color:#666; margin-bottom:20px;">Fevereiro de 2003</div>
+        <div style="color:#666; margin-bottom:20px;">2026</div>
         <p>A crise na construção civil já dura meses.</p>
         <p style="margin-top:10px;">Obras paradas. Empreiteiras quebrando. Trabalhadores na rua.</p>
         <p style="margin-top:10px; color:#888; font-size:12px;">"Aqui não tem gangue, tem facção."</p>`,

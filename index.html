@@ -102,7 +102,7 @@
         <div id="radio-display" style="display:none; position:absolute; bottom:40px; right:8px; background:rgba(0,0,0,0.8); padding:8px 12px; border:1px solid #333; max-width:180px;"></div>
         <div id="controls">WASD Mover | SHIFT Correr | E Veículo | Q Arma | R Rádio | F Interagir | SPACE Freio</div>
         <div id="loading"><div>CARREGANDO SPRITES GTA 1...</div><div id="loading-bar"><div id="loading-fill"></div></div></div>
-        <div id="start-screen"><h1>☠ SOL VERMELHO ☠</h1><h2>Fortaleza - Fevereiro de 2003</h2><div class="menu-buttons" style="display:flex;flex-direction:column;gap:10px;"><button class="btn" onclick="showIntro()">NOVO JOGO</button><button class="btn btn-secondary" id="continue-btn" onclick="loadAndStart()" style="display:none;">CONTINUAR</button></div></div>
+        <div id="start-screen"><h1>☠ SOL VERMELHO ☠</h1><h2>Fortaleza - 2026</h2><div class="menu-buttons" style="display:flex;flex-direction:column;gap:10px;"><button class="btn" onclick="showIntro()">NOVO JOGO</button><button class="btn btn-secondary" id="continue-btn" onclick="loadAndStart()" style="display:none;">CONTINUAR</button></div></div>
         <div id="intro-screen" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:#0a0a12; z-index:100; padding:30px; overflow-y:auto;">
             <div style="max-width:500px; margin:0 auto; color:#999; font-family:Georgia,serif; line-height:1.8; font-size:13px;">
                 <div id="intro-text"></div>
@@ -127,7 +127,35 @@
 const canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
 const minimapCanvas = document.getElementById('minimap'), minimapCtx = minimapCanvas.getContext('2d');
 ctx.imageSmoothingEnabled = false; minimapCtx.imageSmoothingEnabled = false;
-const WORLD_W = 4096, WORLD_H = 4096, TILE_SIZE = 64;
+let WORLD_W = 4096, WORLD_H = 4096; const TILE_SIZE = 64;
+// === TILEMAP OSM (Praia de Iracema) ===
+const RENDER_TILE = 64;
+const TMAP = { grid: null, collision: null, w: 0, h: 0, loaded: false, streetNames: [],
+    colors: { 0:'#c8c8b4', 1:'#505050', 2:'#d4956a', 3:'#b07050', 4:'#8b4513', 5:'#2288cc', 6:'#f0d890', 7:'#4a8c3f', 8:'#888888' },
+    // tile type -> array of pre-scaled canvas (RENDER_TILE x RENDER_TILE)
+    sprites: {}, spritesLoaded: false
+};
+// Map tile grid type to sprite category name
+const TILE_SPRITE_MAP = { 0:'sidewalk', 1:'road', 2:'building_low', 3:'building_mid', 4:'building_high', 5:'water', 6:'sand', 7:'park', 8:'sidewalk' };
+// === 2.5D OBLIQUE PROJECTION ===
+const FLOOR_PX = 8;
+const BUILDING_FLOORS = { 2: 2, 3: 5, 4: 12 };
+const MAX_HEIGHT_PX = 12 * FLOOR_PX;
+function tileHash(tx, ty) { return ((tx * 73856093) ^ (ty * 19349663)) >>> 0; }
+function isSolid(wx, wy) {
+    if (!TMAP.loaded) return false;
+    const tx = Math.floor(wx / RENDER_TILE), ty = Math.floor(wy / RENDER_TILE);
+    if (tx < 0 || tx >= TMAP.w || ty < 0 || ty >= TMAP.h) return true;
+    return TMAP.collision[ty][tx] === 1;
+}
+function findRoadTiles(count) {
+    if (!TMAP.loaded) return [];
+    const roads = [];
+    for (let y = 0; y < TMAP.h; y++) for (let x = 0; x < TMAP.w; x++) if (TMAP.grid[y][x] === 1) roads.push({ x: x * RENDER_TILE + RENDER_TILE/2, y: y * RENDER_TILE + RENDER_TILE/2 });
+    const result = [];
+    for (let i = 0; i < count && roads.length > 0; i++) { const idx = Math.floor(Math.random() * roads.length); result.push(roads.splice(idx, 1)[0]); }
+    return result;
+}
 const assets = { sprites: null, tiles: null, spriteData: null, loaded: false };
 const G = { running: false, paused: false, cam: { x: 0, y: 0 }, keys: {}, mouse: { x: 0, y: 0, down: false, wx: 0, wy: 0 }, player: null, vehicles: [], peds: [], cops: [], policeVehicles: [], bullets: [], particles: [], pickups: [], targets: [], wanted: 0, wantedTimer: 0, money: 0, score: 0, kills: 0, msgTimer: 0, msgPersist: false, time: 0, mission: null, missionIdx: 0,
     // Sistema de sanidade (oculto do jogador)
@@ -718,8 +746,45 @@ async function loadAssets() {
         const resp = await fetch('assets/sprite_data.json');
         assets.spriteData = await resp.json();
         fill.style.width = '70%';
+        // Carrega tilemap OSM
+        try {
+            const tmResp = await fetch('tools/data/tilemap.json');
+            const tmData = await tmResp.json();
+            TMAP.grid = tmData.grid; TMAP.w = tmData.width; TMAP.h = tmData.height;
+            TMAP.streetNames = tmData.street_names || [];
+            TMAP.collision = [];
+            for (let y = 0; y < TMAP.h; y++) { TMAP.collision[y] = []; for (let x = 0; x < TMAP.w; x++) { const t = TMAP.grid[y][x]; TMAP.collision[y][x] = (t >= 2 && t <= 5) ? 1 : 0; } }
+            TMAP.loaded = true;
+            WORLD_W = TMAP.w * RENDER_TILE; WORLD_H = TMAP.h * RENDER_TILE;
+            console.log(`Tilemap: ${TMAP.w}x${TMAP.h} tiles, world: ${WORLD_W}x${WORLD_H}px`);
+            generateProps();
+            // Load tile sprite images
+            try {
+                const atlasResp = await fetch('tools/data/tiles/tile_atlas.json');
+                const atlas = await atlasResp.json();
+                const loadPromises = [];
+                for (const [category, files] of Object.entries(atlas.tiles)) {
+                    TMAP.sprites[category] = [];
+                    for (const fname of files) {
+                        loadPromises.push(
+                            loadImage(`tools/data/tiles/${category}/${fname}`).then(img => {
+                                // Pre-scale to RENDER_TILE size for performance
+                                const c = document.createElement('canvas');
+                                c.width = RENDER_TILE; c.height = RENDER_TILE;
+                                c.getContext('2d').drawImage(img, 0, 0, RENDER_TILE, RENDER_TILE);
+                                TMAP.sprites[category].push(c);
+                            }).catch(() => {})
+                        );
+                    }
+                }
+                await Promise.all(loadPromises);
+                TMAP.spritesLoaded = Object.keys(TMAP.sprites).some(k => TMAP.sprites[k].length > 0);
+                console.log('Tile sprites loaded:', Object.fromEntries(Object.entries(TMAP.sprites).map(([k,v]) => [k, v.length])));
+            } catch(e) { console.log('Tile sprites not found:', e); }
+        } catch(e) { console.log('Tilemap not found:', e); }
+        fill.style.width = '85%';
         // Carrega mapa de satélite via Mapbox API
-        if (typeof loadMapboxSatelliteImage === 'function') {
+        if (!TMAP.loaded && typeof loadMapboxSatelliteImage === 'function') {
             assets.satellite = await loadMapboxSatelliteImage(WORLD_W, WORLD_H);
         }
         fill.style.width = '100%';
@@ -756,7 +821,7 @@ class Player {
         if (this.inVehicle) { this.x = this.inVehicle.x; this.y = this.inVehicle.y; return; }
         let dx = 0, dy = 0; const spd = G.keys['ShiftLeft'] ? 4 : 2.5;
         if (G.keys['KeyW']) dy -= 1; if (G.keys['KeyS']) dy += 1; if (G.keys['KeyA']) dx -= 1; if (G.keys['KeyD']) dx += 1;
-        if (dx || dy) { const len = Math.sqrt(dx*dx + dy*dy); this.x += (dx/len) * spd; this.y += (dy/len) * spd; this.x = Math.max(20, Math.min(WORLD_W - 20, this.x)); this.y = Math.max(20, Math.min(WORLD_H - 20, this.y)); this.anim = (this.anim + 0.15) % 8; }
+        if (dx || dy) { const len = Math.sqrt(dx*dx + dy*dy); const nx = this.x + (dx/len) * spd, ny = this.y + (dy/len) * spd; if (!isSolid(nx, this.y)) this.x = nx; if (!isSolid(this.x, ny)) this.y = ny; this.x = Math.max(20, Math.min(WORLD_W - 20, this.x)); this.y = Math.max(20, Math.min(WORLD_H - 20, this.y)); this.anim = (this.anim + 0.15) % 8; }
         this.rot = Math.atan2(G.mouse.wy - this.y, G.mouse.wx - this.x);
         if (G.mouse.down && this.weapon.auto) this.attack();
     }
@@ -785,7 +850,7 @@ class Vehicle {
         if (this.health < this.maxHealth * 0.5 && Math.random() > 0.85) {
             G.particles.push({ x: this.x + (Math.random()-0.5)*20, y: this.y + (Math.random()-0.5)*20, vx: (Math.random()-0.5)*0.5, vy: -0.5 - Math.random(), life: 40, maxLife: 40, color: '#444', size: 6 + Math.random()*8, type: 'smoke' });
         }
-        if (!this.driver) { this.speed *= 0.98; this.x += Math.cos(this.rot - Math.PI/2) * this.speed; this.y += Math.sin(this.rot - Math.PI/2) * this.speed; return; }
+        if (!this.driver) { this.speed *= 0.98; const ux = this.x + Math.cos(this.rot - Math.PI/2) * this.speed, uy = this.y + Math.sin(this.rot - Math.PI/2) * this.speed; if (!isSolid(ux, uy)) { this.x = ux; this.y = uy; } else { this.speed *= -0.3; } return; }
         if (G.keys['KeyW']) this.speed = Math.min(this.speed + this.accel, this.maxSpeed); else if (G.keys['KeyS']) this.speed = Math.max(this.speed - this.accel*1.5, -this.maxSpeed*0.4); else this.speed *= 0.98;
         const wasDrifting = Math.abs(this.lateralV) > 0.3;
         if (G.keys['Space']) { this.speed *= 0.95; this.lateralV += this.speed * 0.1 * (G.keys['KeyA'] ? 1 : G.keys['KeyD'] ? -1 : 0); }
@@ -802,7 +867,7 @@ class Vehicle {
                 G.particles.push({ x: wx, y: wy, vx: 0, vy: 0, life: 120, maxLife: 120, color: '#222', size: 4, type: 'skid' });
             }
         }
-        this.lateralV *= 0.92; const moveAngle = this.rot + this.lateralV * 0.15; this.x += Math.cos(moveAngle - Math.PI/2) * this.speed; this.y += Math.sin(moveAngle - Math.PI/2) * this.speed;
+        this.lateralV *= 0.92; const moveAngle = this.rot + this.lateralV * 0.15; const nvx = this.x + Math.cos(moveAngle - Math.PI/2) * this.speed, nvy = this.y + Math.sin(moveAngle - Math.PI/2) * this.speed; if (isSolid(nvx, nvy)) { this.speed *= -0.3; } else { this.x = nvx; this.y = nvy; }
         this.x = Math.max(40, Math.min(WORLD_W - 40, this.x)); this.y = Math.max(40, Math.min(WORLD_H - 40, this.y)); this.driver.x = this.x; this.driver.y = this.y;
         if (Math.abs(this.speed) > 3) { for (const ped of G.peds) { if (Math.hypot(ped.x - this.x, ped.y - this.y) < 35) { ped.takeDamage(Math.abs(this.speed) * 12, this.driver); this.speed *= 0.8; increaseWanted(1, CRIME_TYPES.vida, ped.x, ped.y); } } for (const cop of G.cops) { if (Math.hypot(cop.x - this.x, cop.y - this.y) < 35) { cop.takeDamage(Math.abs(this.speed) * 12, this.driver); this.speed *= 0.8; increaseWanted(2, CRIME_TYPES.vida, cop.x, cop.y); } } }
     }
@@ -1021,17 +1086,29 @@ function dismissMsg() {
 function handleVehicle() { if (G.player.inVehicle) { const v = G.player.inVehicle; v.driver = null; G.player.inVehicle = null; G.player.x = v.x + 40; G.player.y = v.y; document.getElementById('speed').style.opacity = 0; showMsg('Saiu do veiculo'); } else { for (const v of G.vehicles) { if (Math.hypot(v.x - G.player.x, v.y - G.player.y) < 50 && !v.driver) { v.driver = G.player; G.player.inVehicle = v; document.getElementById('speed').style.opacity = 1; showMsg('Entrou no veiculo'); break; } } } }
 function spawnWorld() {
     const types = ['sedan', 'sport', 'taxi', 'truck'];
-    // Carro inicial perto do player
-    const startCar = new Vehicle(WORLD_W/2 + 60, WORLD_H/2, 'sport');
-    startCar.rot = 0;
-    G.vehicles.push(startCar);
-    // Outros carros espalhados
-    for (let i = 0; i < 25; i++) G.vehicles.push(new Vehicle(200 + Math.random() * (WORLD_W - 800), 200 + Math.random() * (WORLD_H - 400), types[Math.floor(Math.random() * types.length)]));
-    G.vehicles.push(new Vehicle(WORLD_W/2 + 200, WORLD_H/2 + 200, 'police'));
-    // Pedestres mais concentrados nos bairros
-    for (let i = 0; i < 50; i++) G.peds.push(new Ped(800 + Math.random() * 2500, 400 + Math.random() * 3000));
     const pickupTypes = ['health', 'armor', 'money', 'pistol', 'uzi', 'shotgun'];
-    for (let i = 0; i < 30; i++) G.pickups.push(new Pickup(100 + Math.random() * (WORLD_W - 800), 100 + Math.random() * (WORLD_H - 200), pickupTypes[Math.floor(Math.random() * pickupTypes.length)]));
+    if (TMAP.loaded) {
+        const spots = findRoadTiles(120);
+        // Carro do player
+        if (spots.length > 0) { const sc = new Vehicle(spots[0].x, spots[0].y, 'sport'); sc.rot = 0; G.vehicles.push(sc); }
+        // Carros nas ruas
+        for (let i = 1; i < Math.min(26, spots.length); i++) G.vehicles.push(new Vehicle(spots[i].x, spots[i].y, types[Math.floor(Math.random() * types.length)]));
+        // Viatura
+        if (spots.length > 26) G.vehicles.push(new Vehicle(spots[26].x, spots[26].y, 'police'));
+        // Pedestres nas ruas
+        for (let i = 27; i < Math.min(77, spots.length); i++) G.peds.push(new Ped(spots[i].x, spots[i].y));
+        // Pickups
+        for (let i = 0; i < 30; i++) { const s = spots[Math.floor(Math.random() * spots.length)]; G.pickups.push(new Pickup(s.x, s.y, pickupTypes[Math.floor(Math.random() * pickupTypes.length)])); }
+        // Player start: na rua perto do centro do mapa
+        const center = spots.reduce((best, s) => { const d = Math.hypot(s.x - WORLD_W/2, s.y - WORLD_H/2); return d < best.d ? { x: s.x, y: s.y, d } : best; }, { x: WORLD_W/2, y: WORLD_H/2, d: Infinity });
+        G.player.x = center.x; G.player.y = center.y;
+    } else {
+        const startCar = new Vehicle(WORLD_W/2 + 60, WORLD_H/2, 'sport'); startCar.rot = 0; G.vehicles.push(startCar);
+        for (let i = 0; i < 25; i++) G.vehicles.push(new Vehicle(200 + Math.random() * (WORLD_W - 800), 200 + Math.random() * (WORLD_H - 400), types[Math.floor(Math.random() * types.length)]));
+        G.vehicles.push(new Vehicle(WORLD_W/2 + 200, WORLD_H/2 + 200, 'police'));
+        for (let i = 0; i < 50; i++) G.peds.push(new Ped(800 + Math.random() * 2500, 400 + Math.random() * 3000));
+        for (let i = 0; i < 30; i++) G.pickups.push(new Pickup(100 + Math.random() * (WORLD_W - 800), 100 + Math.random() * (WORLD_H - 200), pickupTypes[Math.floor(Math.random() * pickupTypes.length)]));
+    }
 }
 
 // Maquete de Fortaleza - visual feito à mão
@@ -1258,10 +1335,559 @@ function drawMaquete() {
     ctx.fillText('RIO CEARA', ox + 150, oy + 150);
 }
 
+// === 2.5D RENDERING PIPELINE ===
+
+function drawGroundTiles() {
+    const stx = Math.max(0, Math.floor(G.cam.x / RENDER_TILE));
+    const sty = Math.max(0, Math.floor(G.cam.y / RENDER_TILE));
+    const etx = Math.min(TMAP.w, Math.ceil((G.cam.x + canvas.width) / RENDER_TILE) + 1);
+    const ety = Math.min(TMAP.h, Math.ceil((G.cam.y + canvas.height) / RENDER_TILE) + 1);
+    if (TMAP.spritesLoaded) {
+        for (let ty = sty; ty < ety; ty++) {
+            for (let tx = stx; tx < etx; tx++) {
+                const t = TMAP.grid[ty][tx];
+                if (t >= 2 && t <= 4) continue;
+                const cat = TILE_SPRITE_MAP[t];
+                const sprites = TMAP.sprites[cat];
+                const dx = tx * RENDER_TILE - G.cam.x, dy = ty * RENDER_TILE - G.cam.y;
+                if (sprites && sprites.length > 0) {
+                    const idx = tileHash(tx, ty) % sprites.length;
+                    ctx.drawImage(sprites[idx], dx, dy);
+                } else {
+                    ctx.fillStyle = TMAP.colors[t] || '#ff00ff';
+                    ctx.fillRect(dx, dy, RENDER_TILE, RENDER_TILE);
+                }
+            }
+        }
+    } else {
+        let lastColor = '';
+        for (let ty = sty; ty < ety; ty++) {
+            for (let tx = stx; tx < etx; tx++) {
+                const t = TMAP.grid[ty][tx];
+                if (t >= 2 && t <= 4) continue;
+                const c = TMAP.colors[t] || '#ff00ff';
+                if (c !== lastColor) { ctx.fillStyle = c; lastColor = c; }
+                ctx.fillRect(tx * RENDER_TILE - G.cam.x, ty * RENDER_TILE - G.cam.y, RENDER_TILE, RENDER_TILE);
+            }
+        }
+    }
+}
+
+function drawBuildingShadows() {
+    const stx = Math.max(0, Math.floor(G.cam.x / RENDER_TILE));
+    const sty = Math.max(0, Math.floor(G.cam.y / RENDER_TILE));
+    const etx = Math.min(TMAP.w, Math.ceil((G.cam.x + canvas.width) / RENDER_TILE) + 1);
+    const ety = Math.min(TMAP.h, Math.ceil((G.cam.y + canvas.height) / RENDER_TILE) + 1);
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    for (let ty = sty; ty < ety; ty++) {
+        for (let tx = stx; tx < etx; tx++) {
+            const t = TMAP.grid[ty][tx];
+            if (t >= 2 && t <= 4) {
+                const floors = BUILDING_FLOORS[t];
+                const sh = floors * 3;
+                ctx.fillRect(tx * RENDER_TILE - G.cam.x + sh, ty * RENDER_TILE - G.cam.y + sh, RENDER_TILE, RENDER_TILE);
+            }
+        }
+    }
+}
+
+// District palettes for building visuals
+const DISTRICT_PALETTES = {
+    alta: {
+        wall: { 2: '#d4c0a8', 3: '#c0a888', 4: '#a89078' },
+        windowLit: '#ffd54f', windowDark: '#2a3f5f',
+        groundFloor: '#8c7860'
+    },
+    media: {
+        wall: { 2: '#c4a078', 3: '#a88058', 4: '#8c6838' },
+        windowLit: '#e8c040', windowDark: '#1a2040',
+        groundFloor: '#706040'
+    },
+    periferia: {
+        wall: { 2: '#a0a0a0', 3: '#888888', 4: '#707070' },
+        windowLit: '#d0b040', windowDark: '#182030',
+        groundFloor: '#606060'
+    }
+};
+
+function drawObliqueBuilding(tx, ty, tileType) {
+    const floors = BUILDING_FLOORS[tileType];
+    const heightPx = floors * FLOOR_PX;
+    const dx = tx * RENDER_TILE - G.cam.x;
+    const dy = ty * RENDER_TILE - G.cam.y;
+    const hash = tileHash(tx, ty);
+    const wx = tx * RENDER_TILE + RENDER_TILE / 2;
+    const wy = ty * RENDER_TILE + RENDER_TILE / 2;
+    const zona = getZona(wx, wy);
+    const pal = DISTRICT_PALETTES[zona.classe] || DISTRICT_PALETTES.periferia;
+
+    // Front face (south wall visible below roof)
+    const faceTop = dy + RENDER_TILE;
+    ctx.fillStyle = pal.wall[tileType];
+    ctx.fillRect(dx, faceTop, RENDER_TILE, heightPx);
+
+    // Ground floor distinction (darker, shop/garage feel)
+    const gfH = Math.min(heightPx, FLOOR_PX);
+    ctx.fillStyle = pal.groundFloor;
+    ctx.fillRect(dx, faceTop + heightPx - gfH, RENDER_TILE, gfH);
+
+    // Wall edge darkening
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.fillRect(dx, faceTop + heightPx - 1, RENDER_TILE, 1);
+    ctx.fillRect(dx + RENDER_TILE - 1, faceTop, 1, heightPx);
+
+    // Windows on front face (skip ground floor)
+    const upperFloors = Math.max(1, floors - 1);
+    const cols = Math.max(1, Math.floor(RENDER_TILE / 14));
+    const startX = Math.floor((RENDER_TILE - cols * 14) / 2) + 3;
+    const rowH = Math.max(8, (heightPx - gfH) / upperFloors);
+    for (let row = 0; row < upperFloors; row++) {
+        for (let col = 0; col < cols; col++) {
+            const lit = ((hash + row * 7 + col * 13) % 4) === 0;
+            ctx.fillStyle = lit ? pal.windowLit : pal.windowDark;
+            ctx.fillRect(dx + startX + col * 14, faceTop + 2 + row * rowH, 8, Math.min(6, rowH - 3));
+        }
+    }
+
+    // Ground floor details (letreiros in Centro)
+    if (zona.classe === 'media' && hash % 3 === 0) {
+        ctx.fillStyle = ['#c0392b', '#2980b9', '#27ae60', '#f39c12'][hash % 4];
+        ctx.fillRect(dx + 4, faceTop + heightPx - gfH + 1, RENDER_TILE - 8, 3);
+    }
+
+    // Roof (top face) - at normal tile position
+    const cat = TILE_SPRITE_MAP[tileType];
+    const sprites = TMAP.spritesLoaded ? TMAP.sprites[cat] : null;
+    if (sprites && sprites.length > 0) {
+        const idx = hash % sprites.length;
+        ctx.drawImage(sprites[idx], dx, dy);
+    } else {
+        ctx.fillStyle = TMAP.colors[tileType];
+        ctx.fillRect(dx, dy, RENDER_TILE, RENDER_TILE);
+    }
+
+    // Rooftop details
+    drawRooftopDetails(dx, dy, hash, zona.classe, tileType);
+
+    // Roof bottom edge
+    ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(dx, dy + RENDER_TILE);
+    ctx.lineTo(dx + RENDER_TILE, dy + RENDER_TILE);
+    ctx.stroke();
+}
+
+function drawRooftopDetails(dx, dy, hash, classe, tileType) {
+    // Blue water tank - signature of Fortaleza periferia
+    if (classe === 'periferia' && hash % 5 < 3) {
+        ctx.fillStyle = '#1E90FF';
+        ctx.fillRect(dx + RENDER_TILE - 16, dy + 4, 12, 12);
+        ctx.fillStyle = '#0066CC';
+        ctx.fillRect(dx + RENDER_TILE - 16, dy + 4, 12, 2);
+    } else if (classe === 'media' && hash % 7 < 2) {
+        ctx.fillStyle = '#1E90FF';
+        ctx.fillRect(dx + RENDER_TILE - 14, dy + 6, 10, 10);
+        ctx.fillStyle = '#0066CC';
+        ctx.fillRect(dx + RENDER_TILE - 14, dy + 6, 10, 2);
+    }
+
+    // AC unit - common in rich neighborhoods
+    if (classe === 'alta' && hash % 4 < 2) {
+        ctx.fillStyle = '#ccc';
+        ctx.fillRect(dx + 4, dy + RENDER_TILE - 14, 12, 10);
+        ctx.fillStyle = '#999';
+        ctx.fillRect(dx + 4, dy + RENDER_TILE - 14, 12, 2);
+    }
+
+    // Antenna
+    if (hash % 13 < 2) {
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(dx + RENDER_TILE / 2, dy + 2);
+        ctx.lineTo(dx + RENDER_TILE / 2, dy - 8);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(dx + RENDER_TILE / 2 - 4, dy - 4);
+        ctx.lineTo(dx + RENDER_TILE / 2 + 4, dy - 4);
+        ctx.stroke();
+    }
+
+    // Exposed rebar - periferia only (laje esperando 2o andar)
+    if (classe === 'periferia' && tileType === 2 && hash % 4 < 2) {
+        ctx.strokeStyle = '#8B4513';
+        ctx.lineWidth = 1;
+        for (let i = 0; i < 3; i++) {
+            const rx = dx + 10 + i * 18 + (hash % 5);
+            ctx.beginPath();
+            ctx.moveTo(rx, dy);
+            ctx.lineTo(rx, dy - 6 - (hash % 4));
+            ctx.stroke();
+        }
+    }
+}
+
+// === MICRO-PROPS (generated at tilemap load) ===
+const WORLD_PROPS = [];  // populated by generateProps()
+
+function generateProps() {
+    if (!TMAP.loaded) return;
+    WORLD_PROPS.length = 0;
+    for (let ty = 0; ty < TMAP.h; ty++) {
+        for (let tx = 0; tx < TMAP.w; tx++) {
+            const t = TMAP.grid[ty][tx];
+            const hash = tileHash(tx, ty);
+            const wx = tx * RENDER_TILE + RENDER_TILE / 2;
+            const wy = ty * RENDER_TILE + RENDER_TILE / 2;
+            const zona = getZona(wx, wy);
+
+            // Trees on park tiles
+            if (t === 7 && hash % 3 === 0) {
+                WORLD_PROPS.push({ x: wx + (hash % 20) - 10, y: wy + (hash % 15) - 7, type: 'tree' });
+            }
+            // Props on sidewalk tiles
+            if (t === 0 || t === 8) {
+                // Street trees (sparse)
+                if (hash % 17 === 0) {
+                    WORLD_PROPS.push({ x: wx + (hash % 24) - 12, y: wy + (hash % 20) - 10, type: hash % 5 === 0 ? 'palm' : 'tree' });
+                }
+                // District-specific props
+                if (zona.classe === 'periferia') {
+                    if (hash % 23 === 0) WORLD_PROPS.push({ x: wx, y: wy, type: 'dumpster' });
+                } else if (zona.classe === 'media') {
+                    if (hash % 19 === 0) WORLD_PROPS.push({ x: wx, y: wy, type: 'cart' });
+                    if (hash % 31 === 0) WORLD_PROPS.push({ x: wx, y: wy, type: 'chairs' });
+                } else {
+                    if (hash % 29 === 0) WORLD_PROPS.push({ x: wx, y: wy, type: 'bench' });
+                }
+            }
+        }
+    }
+    // Sort by Y once (static props)
+    WORLD_PROPS.sort((a, b) => a.y - b.y);
+    console.log('Props generated:', WORLD_PROPS.length);
+}
+
+function drawProp(prop) {
+    const sx = prop.x - G.cam.x, sy = prop.y - G.cam.y;
+    if (sx < -30 || sx > canvas.width + 30 || sy < -40 || sy > canvas.height + 30) return;
+
+    if (prop.type === 'tree') {
+        // Trunk
+        ctx.fillStyle = '#5a3a1a';
+        ctx.fillRect(sx - 2, sy - 4, 4, 10);
+        // Canopy
+        ctx.fillStyle = '#2d7a2d';
+        ctx.beginPath(); ctx.arc(sx, sy - 8, 10, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#1a5a1a';
+        ctx.beginPath(); ctx.arc(sx - 3, sy - 6, 6, 0, Math.PI * 2); ctx.fill();
+    }
+    else if (prop.type === 'palm') {
+        // Trunk (thin, curved)
+        ctx.strokeStyle = '#6a4a2a';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy + 5);
+        ctx.quadraticCurveTo(sx + 4, sy - 10, sx + 2, sy - 25);
+        ctx.stroke();
+        // Fronds
+        ctx.strokeStyle = '#2a8a2a';
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 5; i++) {
+            const ang = (i / 5) * Math.PI * 2 - Math.PI / 2;
+            ctx.beginPath();
+            ctx.moveTo(sx + 2, sy - 25);
+            ctx.quadraticCurveTo(sx + 2 + Math.cos(ang) * 12, sy - 25 + Math.sin(ang) * 8, sx + 2 + Math.cos(ang) * 18, sy - 22 + Math.sin(ang) * 12);
+            ctx.stroke();
+        }
+    }
+    else if (prop.type === 'dumpster') {
+        ctx.fillStyle = '#4a4a4a';
+        ctx.fillRect(sx - 8, sy - 4, 16, 10);
+        ctx.fillStyle = '#333';
+        ctx.fillRect(sx - 8, sy - 4, 16, 2);
+    }
+    else if (prop.type === 'cart') {
+        // Street vendor cart
+        ctx.fillStyle = '#c0c0c0';
+        ctx.fillRect(sx - 8, sy - 3, 16, 8);
+        // Umbrella
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath(); ctx.arc(sx, sy - 10, 12, Math.PI, Math.PI * 2); ctx.fill();
+    }
+    else if (prop.type === 'chairs') {
+        // Colorful plastic chairs
+        const colors = ['#e74c3c', '#3498db', '#f1c40f', '#2ecc71'];
+        for (let i = 0; i < 3; i++) {
+            ctx.fillStyle = colors[i % 4];
+            ctx.fillRect(sx - 10 + i * 8, sy - 2, 6, 6);
+        }
+    }
+    else if (prop.type === 'bench') {
+        ctx.fillStyle = '#8a6a4a';
+        ctx.fillRect(sx - 10, sy - 2, 20, 4);
+        ctx.fillStyle = '#6a4a2a';
+        ctx.fillRect(sx - 10, sy + 2, 2, 4);
+        ctx.fillRect(sx + 8, sy + 2, 2, 4);
+    }
+}
+
+// Power lines between adjacent buildings (catenary curves)
+function drawPowerLines(stx, etx, ty) {
+    if (ty < 0 || ty >= TMAP.h) return;
+    const zona = getZona(ty * RENDER_TILE, ty * RENDER_TILE);
+    // More wires in Centro, less in Aldeota
+    const density = zona.classe === 'media' ? 2 : zona.classe === 'periferia' ? 1 : 0;
+    if (density === 0) return;
+
+    let lastBuildingX = -1;
+    for (let tx = stx; tx < etx; tx++) {
+        const t = TMAP.grid[ty][tx];
+        if (t >= 2 && t <= 4) {
+            if (lastBuildingX >= 0 && tx - lastBuildingX <= 4) {
+                const x1 = lastBuildingX * RENDER_TILE + RENDER_TILE - G.cam.x;
+                const x2 = tx * RENDER_TILE - G.cam.x;
+                const wireY = ty * RENDER_TILE - G.cam.y - 2;
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+                for (let w = 0; w < density; w++) {
+                    const sag = 4 + w * 3;
+                    ctx.beginPath();
+                    ctx.moveTo(x1, wireY + w * 3);
+                    ctx.quadraticCurveTo((x1 + x2) / 2, wireY + sag + w * 3, x2, wireY + w * 3);
+                    ctx.stroke();
+                }
+            }
+            lastBuildingX = tx;
+        }
+    }
+}
+
+// === FORTALEZA LANDMARKS ===
+// Positioned at world coordinates, drawn as special objects in Y-sort
+const LANDMARKS = [
+    { id: 'catedral', name: 'CATEDRAL', x: 3200, y: 4200, w: 128, h: 160 },
+    { id: 'castelao', name: 'CASTELÃO', x: 1200, y: 5800, w: 200, h: 200 },
+    { id: 'ponte', name: 'PONTE DOS INGLESES', x: 6800, y: 1200, w: 300, h: 48 },
+    { id: 'farol', name: 'FAROL', x: 7200, y: 600, w: 48, h: 48 },
+    { id: 'dragao', name: 'DRAGÃO DO MAR', x: 4200, y: 1800, w: 180, h: 120 },
+    { id: 'mercado', name: 'MERCADO CENTRAL', x: 2600, y: 3600, w: 160, h: 120 },
+];
+
+function drawLandmark(lm) {
+    const sx = lm.x - G.cam.x, sy = lm.y - G.cam.y;
+    // Skip if offscreen
+    if (sx + lm.w < -50 || sx > canvas.width + 50 || sy + lm.h < -150 || sy > canvas.height + 50) return;
+
+    if (lm.id === 'catedral') {
+        const w = lm.w, h = lm.h;
+        const wallH = 80;
+        // Front face (stone wall)
+        ctx.fillStyle = '#95a5a6';
+        ctx.fillRect(sx, sy + h - wallH, w, wallH);
+        // Gothic arches
+        ctx.fillStyle = '#2c3e50';
+        for (let i = 0; i < 3; i++) {
+            const ax = sx + 12 + i * 40;
+            ctx.beginPath();
+            ctx.moveTo(ax, sy + h - 10);
+            ctx.lineTo(ax + 14, sy + h - 50);
+            ctx.lineTo(ax + 28, sy + h - 10);
+            ctx.fill();
+        }
+        // Roof (top)
+        ctx.fillStyle = '#a8a8a8';
+        ctx.fillRect(sx, sy, w, h - wallH);
+        // Twin towers
+        ctx.fillStyle = '#7f8c8d';
+        // Left tower
+        ctx.fillRect(sx + 8, sy - 40, 24, 40);
+        ctx.beginPath(); ctx.moveTo(sx + 8, sy - 40); ctx.lineTo(sx + 20, sy - 60); ctx.lineTo(sx + 32, sy - 40); ctx.fill();
+        // Right tower
+        ctx.fillRect(sx + w - 32, sy - 40, 24, 40);
+        ctx.beginPath(); ctx.moveTo(sx + w - 32, sy - 40); ctx.lineTo(sx + w - 20, sy - 60); ctx.lineTo(sx + w - 8, sy - 40); ctx.fill();
+        // Cross on top
+        ctx.strokeStyle = '#c0a000';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(sx + w/2, sy - 10); ctx.lineTo(sx + w/2, sy - 25); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(sx + w/2 - 6, sy - 20); ctx.lineTo(sx + w/2 + 6, sy - 20); ctx.stroke();
+    }
+    else if (lm.id === 'castelao') {
+        const cx = sx + lm.w/2, cy = sy + lm.h/2;
+        // Outer ring (stadium structure)
+        ctx.fillStyle = '#bbb';
+        ctx.beginPath(); ctx.arc(cx, cy, lm.w/2, 0, Math.PI * 2); ctx.fill();
+        // Inner dark (seating)
+        ctx.fillStyle = '#555';
+        ctx.beginPath(); ctx.arc(cx, cy, lm.w/2 - 15, 0, Math.PI * 2); ctx.fill();
+        // Field (green)
+        ctx.fillStyle = '#2d8c2d';
+        ctx.beginPath(); ctx.arc(cx, cy, lm.w/2 - 30, 0, Math.PI * 2); ctx.fill();
+        // Field lines
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(cx, cy - lm.w/2 + 30); ctx.lineTo(cx, cy + lm.w/2 - 30); ctx.stroke();
+        ctx.beginPath(); ctx.arc(cx, cy, 15, 0, Math.PI * 2); ctx.stroke();
+        // Front face (south wall of stadium)
+        ctx.fillStyle = '#999';
+        ctx.fillRect(sx, sy + lm.h, lm.w, 30);
+        ctx.fillStyle = '#c0392b';
+        ctx.fillRect(sx + 10, sy + lm.h + 5, lm.w - 20, 4);
+    }
+    else if (lm.id === 'ponte') {
+        // Pier extending over water
+        ctx.fillStyle = '#d4a574';
+        ctx.fillRect(sx, sy, lm.w, lm.h);
+        // Railings
+        ctx.strokeStyle = '#8b5a2b';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx + lm.w, sy); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(sx, sy + lm.h); ctx.lineTo(sx + lm.w, sy + lm.h); ctx.stroke();
+        // Posts
+        for (let i = 0; i < lm.w; i += 30) {
+            ctx.fillStyle = '#8b5a2b';
+            ctx.fillRect(sx + i, sy - 2, 4, lm.h + 4);
+        }
+        // End platform
+        ctx.fillStyle = '#c49464';
+        ctx.fillRect(sx + lm.w - 30, sy - 10, 30, lm.h + 20);
+    }
+    else if (lm.id === 'farol') {
+        const cx = sx + lm.w/2;
+        // Lighthouse tower
+        const towerW = 16, towerH = 60;
+        const towerX = cx - towerW/2;
+        // Stripes red/white
+        for (let i = 0; i < 6; i++) {
+            ctx.fillStyle = i % 2 === 0 ? '#fff' : '#c00';
+            ctx.fillRect(towerX, sy + lm.h - towerH + i * 10, towerW, 10);
+        }
+        // Light dome
+        ctx.fillStyle = '#ff0';
+        ctx.beginPath(); ctx.arc(cx, sy + lm.h - towerH - 5, 10, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffa';
+        ctx.beginPath(); ctx.arc(cx, sy + lm.h - towerH - 5, 6, 0, Math.PI * 2); ctx.fill();
+        // Base
+        ctx.fillStyle = '#888';
+        ctx.fillRect(cx - 20, sy + lm.h - 8, 40, 8);
+    }
+    else if (lm.id === 'dragao') {
+        // Modern cultural center
+        ctx.fillStyle = '#e8e8e8';
+        ctx.fillRect(sx, sy + 30, lm.w, lm.h - 30);
+        // Red distinctive roof
+        ctx.fillStyle = '#c0392b';
+        ctx.fillRect(sx - 5, sy, lm.w + 10, 35);
+        ctx.fillStyle = '#a02018';
+        ctx.fillRect(sx - 5, sy + 30, lm.w + 10, 5);
+        // Columns
+        ctx.fillStyle = '#ccc';
+        for (let i = 0; i < 5; i++) {
+            ctx.fillRect(sx + 10 + i * 38, sy + 35, 6, lm.h - 40);
+        }
+        // Front face
+        ctx.fillStyle = '#bbb';
+        ctx.fillRect(sx, sy + lm.h, lm.w, 25);
+        // Windows
+        ctx.fillStyle = '#4a90b8';
+        for (let i = 0; i < 4; i++) {
+            ctx.fillRect(sx + 15 + i * 42, sy + lm.h + 5, 30, 15);
+        }
+    }
+    else if (lm.id === 'mercado') {
+        // Large market building
+        ctx.fillStyle = '#27ae60';
+        ctx.fillRect(sx, sy, lm.w, lm.h);
+        // Front face
+        ctx.fillStyle = '#1e8a4e';
+        ctx.fillRect(sx, sy + lm.h, lm.w, 30);
+        // Awnings
+        for (let i = 0; i < 4; i++) {
+            ctx.fillStyle = ['#e74c3c', '#f39c12', '#3498db', '#27ae60'][i];
+            ctx.fillRect(sx + 5 + i * 40, sy + lm.h + 3, 35, 10);
+        }
+        // Roof details
+        ctx.fillStyle = '#1a7a3e';
+        ctx.fillRect(sx + 5, sy + 3, lm.w - 10, 3);
+        ctx.fillRect(sx + 5, sy + lm.h - 5, lm.w - 10, 3);
+        // Entrance
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(sx + lm.w/2 - 15, sy + lm.h + 12, 30, 18);
+    }
+
+    // Label (always visible)
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 9px Arial';
+    ctx.textAlign = 'center';
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 3;
+    ctx.strokeText(lm.name, sx + lm.w/2, sy - 8);
+    ctx.fillText(lm.name, sx + lm.w/2, sy - 8);
+}
+
+function drawSortedScene() {
+    const stx = Math.max(0, Math.floor(G.cam.x / RENDER_TILE));
+    const sty = Math.max(0, Math.floor(G.cam.y / RENDER_TILE));
+    const etx = Math.min(TMAP.w, Math.ceil((G.cam.x + canvas.width) / RENDER_TILE) + 1);
+    const ety = Math.min(TMAP.h, Math.ceil((G.cam.y + canvas.height + MAX_HEIGHT_PX) / RENDER_TILE) + 2);
+
+    // Collect visible entities with Y sort key (viewport culling)
+    const entities = [];
+    const viewMinX = G.cam.x - 100, viewMaxX = G.cam.x + canvas.width + 100;
+    const viewMinY = G.cam.y - 100, viewMaxY = G.cam.y + canvas.height + MAX_HEIGHT_PX + 100;
+    function inView(x, y) { return x > viewMinX && x < viewMaxX && y > viewMinY && y < viewMaxY; }
+    for (const p of G.pickups) if (inView(p.x, p.y)) entities.push({ y: p.y, draw: () => p.draw() });
+    for (const v of G.vehicles) if (inView(v.x, v.y)) entities.push({ y: v.y, draw: () => v.draw() });
+    for (const pv of G.policeVehicles) if (inView(pv.x, pv.y)) entities.push({ y: pv.y, draw: () => pv.draw() });
+    for (const p of G.peds) if (inView(p.x, p.y)) entities.push({ y: p.y, draw: () => p.draw() });
+    for (const t of G.targets) if (inView(t.x, t.y)) entities.push({ y: t.y, draw: () => t.draw() });
+    for (const c of G.cops) if (inView(c.x, c.y)) entities.push({ y: c.y, draw: () => c.draw() });
+    entities.push({ y: G.player.y, draw: () => G.player.draw() }); // always draw player
+    for (const b of G.bullets) if (inView(b.x, b.y)) entities.push({ y: b.y, draw: () => b.draw() });
+    // Landmarks
+    for (const lm of LANDMARKS) if (inView(lm.x, lm.y)) entities.push({ y: lm.y + lm.h, draw: () => drawLandmark(lm) });
+    // Static props (only visible)
+    for (const prop of WORLD_PROPS) {
+        if (prop.y > viewMinY && prop.y < viewMaxY) {
+            entities.push({ y: prop.y, draw: () => drawProp(prop) });
+        }
+    }
+
+    entities.sort((a, b) => a.y - b.y);
+
+    let entityIdx = 0;
+
+    for (let ty = sty; ty < ety; ty++) {
+        if (ty >= 0 && ty < TMAP.h) {
+            for (let tx = stx; tx < etx; tx++) {
+                const t = TMAP.grid[ty][tx];
+                if (t >= 2 && t <= 4) {
+                    drawObliqueBuilding(tx, ty, t);
+                }
+            }
+            // Power lines after buildings in this row
+            drawPowerLines(stx, etx, ty);
+        }
+
+        const rowBottomY = (ty + 1) * RENDER_TILE;
+        while (entityIdx < entities.length && entities[entityIdx].y < rowBottomY) {
+            entities[entityIdx].draw();
+            entityIdx++;
+        }
+    }
+
+    while (entityIdx < entities.length) {
+        entities[entityIdx].draw();
+        entityIdx++;
+    }
+}
 function render() {
     ctx.fillStyle = '#1a1a2a'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    // Usa satélite se disponível, senão usa maquete
-    if (assets.satellite) {
+    if (TMAP.loaded) {
+        drawGroundTiles();
+        drawBuildingShadows();
+    } else if (assets.satellite) {
         ctx.drawImage(assets.satellite, -G.cam.x, -G.cam.y, WORLD_W, WORLD_H);
     } else {
         drawMaquete();
@@ -1346,7 +1972,7 @@ function render() {
         }
     }
     ctx.globalAlpha = 1;
-    for (const p of G.pickups) p.draw(); for (const v of G.vehicles) v.draw(); for (const pv of G.policeVehicles) pv.draw(); for (const p of G.peds) p.draw(); for (const t of G.targets) t.draw(); for (const c of G.cops) c.draw(); G.player.draw(); for (const b of G.bullets) b.draw();
+    if (TMAP.loaded) { drawSortedScene(); } else { for (const p of G.pickups) p.draw(); for (const v of G.vehicles) v.draw(); for (const pv of G.policeVehicles) pv.draw(); for (const p of G.peds) p.draw(); for (const t of G.targets) t.draw(); for (const c of G.cops) c.draw(); G.player.draw(); for (const b of G.bullets) b.draw(); }
     // Outras partículas (no ar, depois dos veículos)
     for (const p of G.particles) {
         if (p.type === 'skid') continue;
@@ -1356,7 +1982,9 @@ function render() {
         else ctx.fillRect(p.x - G.cam.x - p.size/2, p.y - G.cam.y - p.size/2, p.size, p.size);
     }
     ctx.globalAlpha = 1;
-    minimapCtx.fillStyle = 'rgba(0,0,0,0.8)'; minimapCtx.fillRect(0, 0, 120, 120); const scale = 120 / WORLD_W;
+    minimapCtx.fillStyle = 'rgba(0,0,0,0.8)'; minimapCtx.fillRect(0, 0, 120, 120);
+    if (TMAP.loaded) { const ms = 120 / Math.max(WORLD_W, WORLD_H); for (let ty = 0; ty < TMAP.h; ty += 4) for (let tx = 0; tx < TMAP.w; tx += 4) { const t = TMAP.grid[ty][tx]; if (t > 0) { minimapCtx.fillStyle = TMAP.colors[t]; minimapCtx.fillRect(tx * RENDER_TILE * ms, ty * RENDER_TILE * ms, RENDER_TILE * 4 * ms + 1, RENDER_TILE * 4 * ms + 1); } } }
+    const scale = 120 / Math.max(WORLD_W, WORLD_H);
     minimapCtx.fillStyle = '#666'; for (const v of G.vehicles) minimapCtx.fillRect(v.x * scale - 1, v.y * scale - 1, 3, 3);
     minimapCtx.fillStyle = '#00f'; for (const c of G.cops) minimapCtx.fillRect(c.x * scale - 1, c.y * scale - 1, 2, 2);
     // Viaturas policiais no minimap (pisca vermelho/azul)

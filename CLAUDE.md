@@ -1,206 +1,152 @@
 # Sol Vermelho - Contexto para Claude
 
-## O QUE É ESTE JOGO
+## O QUE E ESTE JOGO
 
-**Sol Vermelho** é um jogo de ação/crime **inspirado no GTA 1** (1997), com visão **top-down** e estética de **maquete/diorama**.
+**Sol Vermelho** e um jogo de acao/crime **inspirado no GTA 1** (1997), com visao **top-down** e estetica de **maquete/diorama**.
 
-### Referência Principal: GTA 1
-- Câmera de cima (bird's eye view)
+### Referencia Principal: GTA 1
+- Camera de cima (bird's eye view)
 - Cidades abertas para explorar
-- Missões de crime (roubo, fuga, assassinato)
-- Veículos que você pode roubar e dirigir
+- Missoes de crime (roubo, fuga, assassinato)
+- Veiculos que voce pode roubar e dirigir
 - Sistema de procurado (wanted level)
-- Pedestres que você pode atropelar
-- Física arcade (carros driftam, explosões)
+- Pedestres que voce pode atropelar
+- Fisica arcade (carros driftam, explosoes)
 
 ### Nosso Diferencial
-- **Ambientação**: Fortaleza, Ceará, Brasil (2003)
-- **Crítica social**: Polícia demora mais na periferia
-- **Narrativa brasileira**: Facções fictícias, gírias cearenses
-- **Sistema CAPS**: Saúde mental afeta gameplay
+- **Ambientacao**: Fortaleza, Ceara, Brasil (2026)
+- **Critica social**: Policia demora mais na periferia
+- **Narrativa brasileira**: Faccoes ficticias, girias cearenses
+- **Sistema CAPS**: Saude mental afeta gameplay
 
 ### Estilo Visual
-- Top-down 3D (como GTA 1/2, não GTA 3+)
-- Cores saturadas, céu azul nordestino
-- Prédios em estilo maquete/diorama
+- Top-down (como GTA 1/2, nao GTA 3+)
+- Cores saturadas, ceu azul nordestino
+- Predios em estilo maquete/diorama
 - HUD minimalista
 
 ---
 
-## TRABALHO EM EQUIPE (Pedro + Saulo)
+## ESTADO ATUAL DO PROJETO (Fev/2026)
 
-### Como Funciona (Assíncrono)
+### O que funciona (v6 - o jogo jogavel)
+O jogo esta no `index.html` na raiz. E um arquivo unico com ~2090 linhas.
+Atualmente usa Canvas 2D (mas a decisao de engine final esta em aberto).
 
-Vocês dois trabalham **sem precisar se falar em tempo real**. O Git é a comunicação.
+Funcionalidades:
+- Player andando pelo mapa com visao 2.5D obliqua
+- Veiculos (entrar, dirigir, sair) com fisica de drift
+- NPCs e atropelamento
+- HUD (vida, armadura, dinheiro, wanted level, minimapa)
+- 8 armas (punhos, faca, pistola, UZI, shotgun, rifle, molotov, granada)
+- 12 missoes (Capitulos 1 e 2)
+- Wanted level (1-6 estrelas: PM, RAIO, PF)
+- Sistema CAPS (saude mental)
+- Ciclo dia/noite, clima
+- Save/load, pause menu
+- Tela de morte ("WASTED")
+- Intro narrativa
 
+**Para jogar:** abrir `index.html` no navegador.
+
+### Arquivos do jogo (o que importa)
 ```
-REGRA DE OURO: Cada um trabalha na sua branch.
-               Nunca mexer direto na main.
-               O código conta a história.
+index.html          <- O JOGO PRINCIPAL (~2090 linhas, tudo junto)
+expansion.js        <- Expansao: dia/noite, clima, radio, gangues
+historia.js         <- Sistema de historia/narrativa/dialogos
+sanidade.js         <- Sistema CAPS (saude mental)
+mapbox.js           <- Integracao com mapa satelite
+assets/             <- Sprites e tiles (~5 MB)
 ```
 
-### Divisão de Áreas (Para Evitar Conflitos)
-
+### Coisas que existem localmente mas NAO estao no git
 ```
-PEDRO (vibe coding, criativo):
-├── docs/gdd/                   # Roteiro, personagens, história
-├── src/data/missions/          # JSONs das missões
-├── src/ui/HUD.js               # Interface (textos, cores)
-└── Ajustes de gameplay         # Balanceamento (dano, velocidade)
-
-SAULO (programador):
-├── src/core/                   # Engine, loop principal
-├── src/entities/               # Física, movimento
-├── src/systems/                # Lógica complexa
-├── vendor/                     # Libs externas
-└── Arquitetura do código
+_archive/           <- Versoes antigas v1-v6 (2.1 GB). Historico de tentativas.
+gta1_assets/        <- GTA1 original extraido (650 MB). Arquivos binarios do jogo de 1997.
+reference/          <- Parser do Niklas (WebGL-GTA) + extrator. Codigo de referencia.
+v7/                 <- Pipeline Python/OSM que gera mapa real de Fortaleza. Nunca conectou ao jogo.
+gta1-viewer.html    <- Viewer WebGL2 dos mapas GTA1 originais.
+tools/              <- Scripts de geracao de sprites com IA.
+docs/art-bible/     <- Concept art e referencias visuais (33 MB).
+docs/gamedev-101/   <- Material de estudo sobre gamedev (34 MB).
 ```
 
-### Workflow Diário
+---
 
+## HISTORICO DE VERSOES (pra nao repetir erros)
+
+O projeto passou por 8 tentativas diferentes:
+1. **v1** - Godot 4.2 (export web 50+ MB, lento pra prototipar)
+2. **v2** - Canvas 2D puro (funcionou, mas monolitico)
+3. **v3** - HTML modular com src/ (organizar nao resolveu limitacoes)
+4. **v4** - WebGL (complexo demais pra prototipar)
+5. **v5** - WebGL com sprites GTA1 (problemas de escala)
+6. **v6** - Canvas 2D single-file <- **VERSAO ATUAL E FUNCIONAL**
+7. **sv/** - Canvas 2D modular (tentativa de reescrever v6 com arquitetura limpa, nunca terminou)
+8. **v7** - Pipeline OSM em Python (so gera dados, nunca virou jogo)
+
+**Licao:** single-file Canvas 2D (v6) foi o que permitiu prototipar rapido. Decisao de engine final esta em aberto.
+
+---
+
+## DECISOES TECNICAS EM ABERTO
+
+Estas decisoes precisam ser tomadas pela equipe:
+- **Engine**: Canvas 2D e suficiente? WebGL? Godot? Outra?
+- **Arquitetura**: Manter single-file ou modularizar?
+- **Mapa**: Usar dados OSM do v7 ou mapa procedural/artistico?
+- **Assets**: Sprites do GTA1 original como base ou criar proprios?
+- **Rendering**: Manter 2.5D obliquo ou mudar pra isometrico/3D?
+
+---
+
+## TRABALHO EM EQUIPE
+
+### Pedro (vibe coding, criativo, NAO e dev)
+- Usa Claude Code pra tudo
+- Mexe em: roteiro, missoes, gameplay, balanceamento
+- Se der erro: cola pro Claude resolver
+
+### Saulo (programador)
+- Engine, arquitetura, sistemas complexos
+
+### Yuri Alexander (programador)
+- Programacao
+
+### Workflow
 ```bash
-# 1. ANTES DE COMEÇAR (sempre!)
+# 1. ANTES DE COMECAR (sempre!)
 git checkout main
 git pull origin main
-git checkout -b feature/pedro-[o-que-vai-fazer]
+git checkout -b feature/[nome]-[o-que-vai-fazer]
 
-# 2. TRABALHAR
-# ... faz as mudanças ...
+# 2. TRABALHAR (Claude faz o codigo pro Pedro; devs usam o que preferirem)
 
-# 3. QUANDO TERMINAR (Claude faz tudo)
-/commit-push-pr
-
-# 4. AVISAR (opcional)
-# "Criei PR #X - [descrição curta]"
+# 3. QUANDO TERMINAR
+# Commitar, fazer push e criar PR pro main
 ```
 
-### Para Pedro (Iniciante)
-
-**Comandos que você vai usar 90% do tempo:**
-
-```bash
-git branch                                    # Ver em que branch você está
-git checkout -b feature/pedro-nova-missao     # Criar sua branch
-git status                                    # Ver o que mudou
-/commit-push-pr                               # Salvar e criar PR
+### Convencao de Branches
+```
+feature/[nome]-[tarefa]     -> Nova funcionalidade
+fix/[nome]-[bug]            -> Correcao de bug
+chore/[nome]-[tarefa]       -> Manutencao, limpeza, docs
 ```
 
-**Se der erro:** Copia e cola pro Claude resolver.
-
-### Convenção de Branches
-
+### Convencao de Commits
 ```
-feature/[nome]-[tarefa]     → Nova funcionalidade
-fix/[nome]-[bug]            → Correção de bug
-refactor/[nome]-[area]      → Refatoração
+feat: descricao     -> Nova funcionalidade
+fix: descricao      -> Correcao de bug
+docs: descricao     -> Documentacao
+refactor: descricao -> Refatoracao
+chore: descricao    -> Manutencao
 ```
-
----
-
-## ESTRUTURA DO PROJETO (v6 - Atual)
-
-```
-sol-vermelho/
-│
-├── index.html                  # ENTRY POINT PRINCIPAL (v6)
-│
-├── sv/                         # NOVA VERSÃO MODULAR
-│   ├── index.html              # Versão standalone
-│   ├── core.js                 # Engine principal
-│   ├── player.js               # Sistema do jogador
-│   ├── fortaleza-map.js        # Mapa OSM de Fortaleza
-│   └── data/                   # Dados do jogo
-│
-├── assets/                     # ASSETS
-│   ├── sprites_gta.png         # Spritesheet do GTA1
-│   ├── tiles_gta.png           # Tiles do GTA1
-│   └── sprite_data.json        # Metadados dos sprites
-│
-├── gta1_assets/                # ASSETS EXTRAÍDOS DO GTA1
-│   ├── extracted_nyc/          # Sprites de NYC
-│   └── extract_sprites.js      # Script de extração
-│
-├── reference/                  # CÓDIGO DE REFERÊNCIA
-│   └── WebGL-GTA-niklasvh/     # Engine base (não editar)
-│
-├── docs/                       # DOCUMENTAÇÃO
-│   ├── gdd/                    # Game Design Document
-│   │   ├── ROTEIRO.md          # História e missões
-│   │   └── BRIEFING.txt        # Notas do projeto
-│   ├── research/               # Pesquisa
-│   └── technical/              # Docs técnicos
-│
-├── _archive/                   # VERSÕES ANTERIORES
-│   ├── v1_godot/               # Godot 4.2 (pausado)
-│   ├── v2_canvas_2d/           # Canvas 2D puro
-│   ├── v3_game_html_src/       # HTML com src/ modular
-│   ├── v4_webgl/               # Primeira tentativa WebGL
-│   ├── v5_sol_vermelho_webgl/  # WebGL com sprites GTA1
-│   └── v6_colisao_osm/         # Backup da v6
-│
-├── CLAUDE.md                   # Este arquivo
-├── CHANGELOG.md                # Histórico de versões
-└── README.md
-```
-
-## Arquivos Principais (v6)
-
-### Entry Point:
-```
-index.html                        # Arquivo principal do jogo
-```
-
-### Para mexer na ENGINE (Saulo):
-```
-sv/core.js                        # Engine principal
-sv/player.js                      # Sistema do jogador
-sv/fortaleza-map.js               # Mapa OSM
-```
-
-### Assets:
-```
-assets/sprites_gta.png            # Spritesheet
-assets/tiles_gta.png              # Tiles do mapa
-gta1_assets/                      # Sprites extraídos
-```
-
-### Referência (não editar):
-```
-reference/WebGL-GTA-niklasvh/     # Código base original
-```
-
----
-
-## Objetivo Imediato
-**Deadline: Quinta-feira à noite (06/02/2025)**
-
-Criar versão jogável para usar como convite de recrutamento de equipe.
-
-### Critério de Sucesso (Mínimo)
-
-- [x] Player andando no mapa
-- [x] Veículos funcionando
-- [x] NPCs e colisão (atropelar)
-- [ ] Mapa de Fortaleza com dados OSM
-- [ ] 1 missão funcionando
-
-## Decisão Técnica (v6)
-
-Usar **WebGL** baseado no projeto [WebGL-GTA](https://github.com/niklasvh/WebGL-GTA) + dados **OpenStreetMap** de Fortaleza.
-
-### Abordagem Atual
-- Geometria real da cidade via OSM
-- Sprites e tiles extraídos do GTA1
-- Física simplificada (sem Box2D por enquanto)
-- Prototipagem rápida em single-file
-
-### Histórico de Tentativas
-Passamos por 6 versões diferentes (v1-v6). Veja `_archive/` e `CHANGELOG.md` para detalhes.
 
 ---
 
 ## Equipe
 
-- **Pedro Rocha de Oliveira** - Criação, roteiro, gameplay (vibe coding)
-- **Saulo** - Programação, engine, arquitetura
+- **Pedro Rocha de Oliveira** - Criacao, roteiro, gameplay (vibe coding)
+- **Saulo** - Programacao, engine, arquitetura
+- **Yuri Alexander** - Programacao
 - **GitHub**: @pedroufc-source

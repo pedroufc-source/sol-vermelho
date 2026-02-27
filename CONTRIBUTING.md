@@ -1,112 +1,66 @@
 # Contribuindo para Sol Vermelho
 
-Obrigado pelo interesse em contribuir! Este documento explica como você pode ajudar.
+## Como Rodar
 
-## Como Contribuir
+Abrir `index.html` no navegador. Nao precisa instalar nada.
+Opcionalmente: `python3 -m http.server 8000` e acessar `http://localhost:8000`.
 
-### Reportando Bugs
+## Workflow
 
-1. Verifique se o bug já não foi reportado nas [Issues](https://github.com/pedroufc-source/sol-vermelho/issues)
-2. Se não encontrar, crie uma nova issue com:
-   - Título descritivo
-   - Passos para reproduzir
-   - Comportamento esperado vs atual
-   - Screenshots (se aplicável)
-   - Versão do Godot / navegador
+```bash
+# 1. Criar branch a partir da main
+git checkout main
+git pull origin main
+git checkout -b feature/[seu-nome]-[o-que-vai-fazer]
 
-### Sugerindo Features
+# 2. Trabalhar
 
-1. Abra uma issue com a tag `feature`
-2. Descreva a funcionalidade
-3. Explique por que seria útil
-
-### Contribuindo com Código
-
-1. **Fork** o repositório
-2. Crie uma **branch** para sua feature:
-   ```bash
-   git checkout -b feature/minha-feature
-   ```
-3. Faça suas alterações
-4. **Commit** com mensagens claras:
-   ```bash
-   git commit -m "Add: sistema de inventário"
-   ```
-5. **Push** para seu fork:
-   ```bash
-   git push origin feature/minha-feature
-   ```
-6. Abra um **Pull Request**
-
-## Padrões de Código
-
-### GDScript (Godot)
-
-- Use snake_case para variáveis e funções
-- Use PascalCase para classes
-- Comente código complexo
-- Siga o [GDScript Style Guide](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_styleguide.html)
-
-```gdscript
-# Bom
-var player_health: int = 100
-func take_damage(amount: int) -> void:
-    player_health -= amount
-
-# Evite
-var playerHealth = 100
-func TakeDamage(amount):
-    playerHealth -= amount
+# 3. Commitar e criar PR
+git add [arquivos]
+git commit -m "feat: descricao do que fez"
+git push -u origin feature/[seu-nome]-[o-que-vai-fazer]
+# Criar PR pro main
 ```
 
-### JavaScript (Versão Web)
+### Convencao de Branches
+```
+feature/[nome]-[tarefa]     Nova funcionalidade
+fix/[nome]-[bug]            Correcao de bug
+chore/[nome]-[tarefa]       Manutencao, limpeza
+```
 
-- Use camelCase para variáveis e funções
-- Use const/let ao invés de var
-- Comente funções públicas
+### Convencao de Commits
+```
+feat: descricao             Nova funcionalidade
+fix: descricao              Correcao de bug
+docs: descricao             Documentacao
+refactor: descricao         Refatoracao
+chore: descricao            Manutencao
+```
+
+## Padrao de Codigo (JavaScript)
+
+- camelCase para variaveis e funcoes
+- const/let (nunca var)
+- O jogo e um arquivo unico (`index.html`), com 4 scripts auxiliares na raiz
 
 ```javascript
-// Bom
 const playerHealth = 100;
 function takeDamage(amount) {
     playerHealth -= amount;
 }
 ```
 
-## Estrutura de Commits
+## Reportando Bugs
 
-Use prefixos nos commits:
+Criar issue com:
+- Passos para reproduzir
+- Comportamento esperado vs atual
+- Navegador e OS
+- Screenshot se possivel
 
-| Prefixo | Uso |
-|---------|-----|
-| `Add:` | Nova funcionalidade |
-| `Fix:` | Correção de bug |
-| `Update:` | Atualização de funcionalidade existente |
-| `Remove:` | Remoção de código/feature |
-| `Refactor:` | Refatoração sem mudança de comportamento |
-| `Docs:` | Apenas documentação |
-| `Style:` | Formatação, sem mudança de código |
-
-## Áreas que Precisam de Ajuda
-
-- [ ] Arte/Sprites para personagens e veículos
-- [ ] Efeitos sonoros e música
-- [ ] Tradução (inglês)
-- [ ] Testes e QA
-- [ ] Design de missões
-- [ ] Otimização de performance
-
-## Código de Conduta
+## Codigo de Conduta
 
 - Seja respeitoso
-- Aceite críticas construtivas
-- Foque no que é melhor para o projeto
-- Mantenha discussões técnicas
-
-## Dúvidas?
-
-Abra uma issue com a tag `question` ou entre em contato.
-
----
-
-Obrigado por contribuir! 🎮
+- Aceite criticas construtivas
+- Foque no que e melhor pro projeto

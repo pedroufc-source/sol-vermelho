@@ -3,8 +3,8 @@
  * Carrega imagens de satélite de Fortaleza via API
  */
 
-// Token do Mapbox - pode ser sobrescrito via localStorage
-const MAPBOX_TOKEN = localStorage.getItem('mapbox_token') || 'pk.eyJ1IjoicGVkaW1kb3N0ZWNsYWRvcyIsImEiOiJjbWw0dXdoN2YxYTg1M2dvaGs0M2syZ2lzIn0.IHZ2F4VQffFzz5XdUF3kHw';
+// Token do Mapbox - configure via console: setMapboxToken("pk.xxx")
+const MAPBOX_TOKEN = localStorage.getItem('mapbox_token') || '';
 
 // Log de status
 if (MAPBOX_TOKEN) {

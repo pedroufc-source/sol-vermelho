@@ -8,11 +8,12 @@
 *.swp
 *.swo
 
-# ===== Node =====
+# ===== Node (tooling, nao usado pelo jogo) =====
 node_modules/
+package.json
 package-lock.json
 
-# ===== Python =====
+# ===== Python (tooling) =====
 .venv/
 __pycache__/
 *.pyc
@@ -22,36 +23,53 @@ dist/
 build/
 out/
 
-# ===== Environment =====
+# ===== Environment / Secrets =====
 .env
-.env.local
-.env.*.local
+.env.*
 
-# ===== Logs =====
+# ===== Logs / Temp =====
 *.log
-
-# ===== Temp =====
 *.tmp
 *.bak
 
+# ===== Screenshots soltas na raiz =====
+/image*.png
+
 # ======================================
-# ARQUIVOS PESADOS - NÃO RASTREAR NO GIT
+# PESADO / LOCAL — nao faz parte do jogo
 # ======================================
 
-# Versões antigas arquivadas (2.1 GB)
+# Versoes antigas arquivadas (2.1 GB)
 _archive/
 
-# Assets extraídos do GTA1 (1 GB) - proprietários
+# Assets extraidos do GTA1 original (650 MB, proprietario)
 gta1_assets/
 
-# Código de referência externo (67 MB)
+# Codigo de referencia externo (29 MB)
 reference/
 
-# Pipeline v7 - dados gerados/cache
+# Pipeline v7 - Python/OSM (337 MB)
 v7/
 
-# Assets gerados por ferramentas
+# Scripts de geracao de sprites
+tools/
+
+# Assets gerados por IA
 assets/generated/
 
-# Ferramentas auxiliares (podem ser recriadas)
-tools/
+# ======================================
+# DOCS PESADOS — compartilhar por Drive
+# ======================================
+
+# Concept art (33 MB de PNGs)
+docs/art-bible/
+
+# Material de estudo gamedev (34 MB de PDFs)
+docs/gamedev-101/
+
+# ======================================
+# FERRAMENTAS PESSOAIS
+# ======================================
+
+# Viewer dos mapas GTA1 original
+gta1-viewer.html
